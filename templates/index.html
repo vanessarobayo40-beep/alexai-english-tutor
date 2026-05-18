@@ -99,9 +99,41 @@
     </div>
 
     <div class="hd-right">
-      <div class="level-pill" id="level-tag">A1</div>
+      <button class="level-pill" id="level-tag" title="Cambiar nivel">A1</button>
     </div>
   </header>
+
+  <!-- Hamburger dropdown -->
+  <div id="hd-menu" class="hd-menu hidden">
+    <div class="hdm-user">
+      <div class="hdm-avatar" id="hdm-avatar">?</div>
+      <div class="hdm-info">
+        <div class="hdm-name" id="hdm-uname">—</div>
+        <div class="hdm-sub">Nivel <strong id="hdm-lvl">A1</strong> · <strong id="hdm-xp2">0</strong> XP · 🔥<strong id="hdm-str">0</strong></div>
+      </div>
+    </div>
+    <div class="hdm-div"></div>
+    <div class="hdm-label">Aprendizaje</div>
+    <button class="hdm-btn" data-hdm="topics">📚 Cambiar tema</button>
+    <button class="hdm-btn" data-hdm="vocab">📖 Mi vocabulario (<span id="hdm-wc">0</span> palabras)</button>
+    <button class="hdm-btn" data-hdm="family">🏆 Ranking familiar</button>
+    <div class="hdm-div"></div>
+    <div class="hdm-label">Configuración</div>
+    <button class="hdm-btn" id="hdm-voice-btn" data-hdm="voice">🔊 Voz: activada</button>
+    <button class="hdm-btn hdm-speed active" data-hdm="slow">🐢 Lento</button>
+    <button class="hdm-btn hdm-speed" data-hdm="normal">⚡ Normal</button>
+    <button class="hdm-btn hdm-speed" data-hdm="fast">🚀 Rápido</button>
+  </div>
+
+  <!-- Level selector dropdown -->
+  <div id="level-dd" class="level-dd hidden">
+    <div class="ldd-title">Ajusta tu nivel de práctica</div>
+    <button class="ldd-opt active" data-lvl="A1"><strong>A1</strong><span>Principiante</span></button>
+    <button class="ldd-opt" data-lvl="A2"><strong>A2</strong><span>Básico</span></button>
+    <button class="ldd-opt" data-lvl="B1"><strong>B1</strong><span>Intermedio</span></button>
+    <button class="ldd-opt" data-lvl="B2"><strong>B2</strong><span>Intermedio Alto</span></button>
+    <button class="ldd-opt" data-lvl="C1"><strong>C1</strong><span>Avanzado</span></button>
+  </div>
 
   <!-- App body -->
   <div class="app-body">
@@ -111,7 +143,7 @@
       <button id="sidebar-close" class="sb-close" aria-label="Cerrar">✕</button>
       <div class="sb-inner">
 
-        <div class="sb-section">
+        <div class="sb-section" id="topics-section">
           <div class="sb-label">Temas</div>
           <nav class="topic-nav">
             <button class="topic-btn active" data-topic="general">
@@ -141,7 +173,7 @@
           </nav>
         </div>
 
-        <div class="sb-section sb-vocab">
+        <div class="sb-section sb-vocab" id="vocab-section">
           <div class="sb-label">Mi vocabulario <span class="vocab-badge" id="vocab-count">0</span></div>
           <div id="vocab-list" class="vocab-scroll">
             <div class="vocab-empty">
@@ -152,7 +184,7 @@
         </div>
 
         <!-- Leaderboard familiar -->
-        <div class="sb-section">
+        <div class="sb-section" id="leaderboard-section">
           <div class="sb-label">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             Familia

@@ -18,6 +18,8 @@ const S = {
   lastActivity: null,
   pendingVocab: null,
   syncPending: false,
+  targetLevel: 'A1',   // manually selected practice level
+  ttsSpeed: 'slow',    // slow | normal | fast
 };
 
 // ════════════════════════════════════════
@@ -70,6 +72,7 @@ function saveLocal() {
     name: S.name, topic: S.topic, vocab: S.vocab,
     streak: S.streak, xp: S.xp, wordsLearned: S.wordsLearned,
     voiceOn: S.voiceOn, lastActivity: S.lastActivity,
+    targetLevel: S.targetLevel, ttsSpeed: S.ttsSpeed,
   }));
 }
 function loadLocal() {
@@ -177,8 +180,15 @@ function updateStatsUI() {
   DOM.streakVal.textContent = S.streak;
   DOM.wordsVal.textContent  = S.wordsLearned;
   DOM.xpVal.textContent     = S.xp;
-  DOM.levelTag.textContent  = getLevel(S.xp).label;
+  DOM.levelTag.textContent  = S.targetLevel || getLevel(S.xp).label;
   DOM.vocabCount.textContent = S.vocab.length;
+  // Update menu header
+  const hdName = $('hdm-uname'); if (hdName) hdName.textContent = S.name || '—';
+  const hdAvt  = $('hdm-avatar'); if (hdAvt) hdAvt.textContent = (S.name||'?').charAt(0).toUpperCase();
+  const hdLvl  = $('hdm-lvl'); if (hdLvl) hdLvl.textContent = S.targetLevel || getLevel(S.xp).label;
+  const hdXp   = $('hdm-xp2'); if (hdXp) hdXp.textContent = S.xp;
+  const hdStr  = $('hdm-str'); if (hdStr) hdStr.textContent = S.streak;
+  const hdWc   = $('hdm-wc'); if (hdWc) hdWc.textContent = S.vocab.length;
 }
 
 // ════════════════════════════════════════
@@ -188,15 +198,16 @@ const synth = window.speechSynthesis;
 let voices  = [];
 synth?.addEventListener?.('voiceschanged', () => { voices = synth.getVoices(); });
 
+const TTS_RATES = { slow: 0.78, normal: 0.95, fast: 1.15 };
+
 function speak(text) {
   if (!S.voiceOn || !synth) return;
   synth.cancel();
-  // Re-fetch voices each time (Android Chrome loads them async)
   const vList = synth.getVoices();
   const utt = new SpeechSynthesisUtterance(text);
   utt.lang  = 'en-US';
-  utt.rate  = 0.95;
-  utt.pitch = 1.15;
+  utt.rate  = TTS_RATES[S.ttsSpeed] ?? 0.78;
+  utt.pitch = 1.1;
   const v = vList.find(v => /google us english/i.test(v.name))
          || vList.find(v => /google uk english female/i.test(v.name))
          || vList.find(v => /samantha|karen|moira|victoria|zira/i.test(v.name))
@@ -667,9 +678,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initApp();
   });
 
-  // ── Header / Sidebar ────────────────────────────────────
-  DOM.menuBtn.addEventListener('click', () =>
-    DOM.sidebar.classList.contains('open') ? closeSidebar() : openSidebar());
+  // ── Overlay / Sidebar close ─────────────────────────────
   DOM.overlay.addEventListener('click', closeSidebar);
   $('sidebar-close')?.addEventListener('click', closeSidebar);
 
@@ -704,6 +713,105 @@ document.addEventListener('DOMContentLoaded', () => {
   // ── Mobile nav ──────────────────────────────────────────
   document.querySelectorAll('.mnav-btn').forEach(btn =>
     btn.addEventListener('click', () => setMobileTab(btn.dataset.tab)));
+
+  // ── Hamburger dropdown ──────────────────────────────────
+  const hdMenu    = $('hd-menu');
+  const hdTrigger = $('menu-btn');   // tres líneas del header
+  const levelPill = $('level-tag');
+  const levelDd   = $('level-dd');
+
+  function closeHdMenu()  { hdMenu?.classList.add('hidden'); }
+  function closeLevelDd() { levelDd?.classList.add('hidden'); }
+
+  hdTrigger?.addEventListener('click', e => {
+    e.stopPropagation();
+    closeLevelDd();
+    hdMenu?.classList.toggle('hidden');
+    // Sync voice button label
+    const vb = $('hdm-voice-btn');
+    if (vb) vb.textContent = S.voiceOn ? '🔊 Voz: activada' : '🔇 Voz: desactivada';
+    // Sync speed buttons
+    document.querySelectorAll('.hdm-speed').forEach(b =>
+      b.classList.toggle('active', b.dataset.hdm === S.ttsSpeed));
+  });
+
+  document.querySelectorAll('.hdm-btn').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      const action = btn.dataset.hdm;
+
+      if (action === 'topics') {
+        closeHdMenu();
+        openSidebar();
+        // scroll to topics section inside sidebar
+        setTimeout(() => $('topics-section')?.scrollIntoView({ behavior:'smooth', block:'start' }), 150);
+        return;
+      }
+      if (action === 'vocab') {
+        closeHdMenu();
+        openSidebar();
+        setTimeout(() => $('vocab-section')?.scrollIntoView({ behavior:'smooth', block:'start' }), 150);
+        return;
+      }
+      if (action === 'family') {
+        closeHdMenu();
+        openSidebar();
+        setTimeout(() => $('leaderboard-section')?.scrollIntoView({ behavior:'smooth', block:'start' }), 150);
+        return;
+      }
+      if (action === 'voice') {
+        S.voiceOn = !S.voiceOn;
+        btn.textContent = S.voiceOn ? '🔊 Voz: activada' : '🔇 Voz: desactivada';
+        if (!S.voiceOn) synth?.cancel?.();
+        DOM.btnSpeakToggle.classList.toggle('active', !S.voiceOn);
+        toast(S.voiceOn ? '🔊 Voz activada' : '🔇 Voz desactivada', S.voiceOn ? 'success' : '');
+        scheduleSave();
+        return;
+      }
+      // Speed buttons: slow | normal | fast
+      if (action === 'slow' || action === 'normal' || action === 'fast') {
+        S.ttsSpeed = action;
+        document.querySelectorAll('.hdm-speed').forEach(b =>
+          b.classList.toggle('active', b.dataset.hdm === action));
+        const labels = { slow:'🐢 Velocidad: lenta', normal:'⚡ Velocidad: normal', fast:'🚀 Velocidad: rápida' };
+        toast(labels[action], 'success');
+        saveLocal();
+        return;
+      }
+    });
+  });
+
+  // ── Level dropdown ──────────────────────────────────────
+  levelPill?.addEventListener('click', e => {
+    e.stopPropagation();
+    closeHdMenu();
+    levelDd?.classList.toggle('hidden');
+    // Mark current level
+    document.querySelectorAll('.ldd-opt').forEach(b =>
+      b.classList.toggle('active', b.dataset.lvl === S.targetLevel));
+  });
+
+  document.querySelectorAll('.ldd-opt').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      S.targetLevel = btn.dataset.lvl;
+      document.querySelectorAll('.ldd-opt').forEach(b =>
+        b.classList.toggle('active', b.dataset.lvl === S.targetLevel));
+      closeLevelDd();
+      updateStatsUI();
+      saveLocal();
+      toast(`Nivel ajustado a ${S.targetLevel}`, 'success');
+    });
+  });
+
+  // ── Close dropdowns on outside click ───────────────────
+  document.addEventListener('click', () => { closeHdMenu(); closeLevelDd(); });
+
+  // ── Back-button prevention ──────────────────────────────
+  history.pushState(null, '', location.href);
+  window.addEventListener('popstate', () => {
+    history.pushState(null, '', location.href);
+  });
 
   // ── Boot ────────────────────────────────────────────────
   loadLocal();
