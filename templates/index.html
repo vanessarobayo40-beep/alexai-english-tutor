@@ -143,34 +143,78 @@
       <button id="sidebar-close" class="sb-close" aria-label="Cerrar">✕</button>
       <div class="sb-inner">
 
+        <!-- Plan de progreso Harvard -->
+        <div class="plan-card">
+          <div class="plan-card-top">
+            <span class="plan-label">Plan Harvard · 6 Meses</span>
+            <span class="plan-week" id="plan-week-txt">Semana 1</span>
+          </div>
+          <div class="plan-bar-track"><div class="plan-bar-fill" id="plan-bar-fill" style="width:4%"></div></div>
+          <div class="plan-card-bot">Nivel <strong id="plan-lvl-txt">A1</strong> · <strong id="plan-topics-txt">0</strong>/8 temas explorados</div>
+        </div>
+
+        <!-- Ruta de aprendizaje (curriculum Harvard) -->
         <div class="sb-section" id="topics-section">
-          <div class="sb-label">Temas</div>
-          <nav class="topic-nav">
-            <button class="topic-btn active" data-topic="general">
-              <span class="tb-icon">✨</span><span class="tb-text">General</span>
-            </button>
-            <button class="topic-btn" data-topic="shopping">
-              <span class="tb-icon">🛒</span><span class="tb-text">Shopping</span>
-            </button>
-            <button class="topic-btn" data-topic="restaurant">
-              <span class="tb-icon">🍽️</span><span class="tb-text">Restaurant</span>
-            </button>
-            <button class="topic-btn" data-topic="travel">
-              <span class="tb-icon">✈️</span><span class="tb-text">Travel</span>
-            </button>
-            <button class="topic-btn" data-topic="work">
-              <span class="tb-icon">💼</span><span class="tb-text">Work</span>
-            </button>
-            <button class="topic-btn" data-topic="social">
-              <span class="tb-icon">👥</span><span class="tb-text">Social</span>
-            </button>
-            <button class="topic-btn" data-topic="health">
-              <span class="tb-icon">🏥</span><span class="tb-text">Health</span>
-            </button>
-            <button class="topic-btn" data-topic="home">
-              <span class="tb-icon">🏠</span><span class="tb-text">Home</span>
-            </button>
-          </nav>
+          <div class="sb-label">Ruta de aprendizaje</div>
+
+          <div class="curr-group">
+            <div class="curr-group-hd">
+              <span class="curr-badge lvl-a1">A1</span>
+              <span>Meses 1–2 · Principiante</span>
+            </div>
+            <nav class="topic-nav">
+              <button class="topic-btn active" data-topic="general">
+                <span class="tb-icon">✨</span>
+                <div class="tb-info"><span class="tb-text">Presentaciones</span><span class="tb-sub">Saludos, tu nombre, de dónde eres</span></div>
+              </button>
+              <button class="topic-btn" data-topic="home">
+                <span class="tb-icon">🏠</span>
+                <div class="tb-info"><span class="tb-text">Vida diaria</span><span class="tb-sub">Rutinas, horarios, el hogar</span></div>
+              </button>
+            </nav>
+          </div>
+
+          <div class="curr-group">
+            <div class="curr-group-hd">
+              <span class="curr-badge lvl-a2">A2</span>
+              <span>Meses 3–4 · Básico</span>
+            </div>
+            <nav class="topic-nav">
+              <button class="topic-btn" data-topic="shopping">
+                <span class="tb-icon">🛒</span>
+                <div class="tb-info"><span class="tb-text">Compras</span><span class="tb-sub">Precios, tiendas, pedir ayuda</span></div>
+              </button>
+              <button class="topic-btn" data-topic="restaurant">
+                <span class="tb-icon">🍽️</span>
+                <div class="tb-info"><span class="tb-text">Restaurante</span><span class="tb-sub">Menú, ordenar, expresar gustos</span></div>
+              </button>
+              <button class="topic-btn" data-topic="social">
+                <span class="tb-icon">👥</span>
+                <div class="tb-info"><span class="tb-text">Vida social</span><span class="tb-sub">Amigos, planes, presentaciones</span></div>
+              </button>
+            </nav>
+          </div>
+
+          <div class="curr-group">
+            <div class="curr-group-hd">
+              <span class="curr-badge lvl-b1">B1</span>
+              <span>Meses 5–6 · Intermedio</span>
+            </div>
+            <nav class="topic-nav">
+              <button class="topic-btn" data-topic="travel">
+                <span class="tb-icon">✈️</span>
+                <div class="tb-info"><span class="tb-text">Viajes</span><span class="tb-sub">Vuelos, hoteles, turismo</span></div>
+              </button>
+              <button class="topic-btn" data-topic="work">
+                <span class="tb-icon">💼</span>
+                <div class="tb-info"><span class="tb-text">Trabajo</span><span class="tb-sub">Entrevistas, oficina, carrera</span></div>
+              </button>
+              <button class="topic-btn" data-topic="health">
+                <span class="tb-icon">🏥</span>
+                <div class="tb-info"><span class="tb-text">Salud</span><span class="tb-sub">Doctor, síntomas, bienestar</span></div>
+              </button>
+            </nav>
+          </div>
         </div>
 
         <div class="sb-section sb-vocab" id="vocab-section">
@@ -187,7 +231,7 @@
         <div class="sb-section" id="leaderboard-section">
           <div class="sb-label">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            Familia
+            Familia / Ranking
           </div>
           <div id="leaderboard" class="leaderboard-list">
             <div class="lb-empty">Cargando...</div>

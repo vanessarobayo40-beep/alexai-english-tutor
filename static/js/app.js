@@ -18,8 +18,10 @@ const S = {
   lastActivity: null,
   pendingVocab: null,
   syncPending: false,
-  targetLevel: 'A1',   // manually selected practice level
-  ttsSpeed: 'slow',    // slow | normal | fast
+  targetLevel: 'A1',
+  ttsSpeed: 'slow',
+  visitedTopics: [],   // tracks which topics have been practiced
+  joinedDate: null,    // ISO date string, set on first login
 };
 
 // ════════════════════════════════════════
@@ -73,6 +75,7 @@ function saveLocal() {
     streak: S.streak, xp: S.xp, wordsLearned: S.wordsLearned,
     voiceOn: S.voiceOn, lastActivity: S.lastActivity,
     targetLevel: S.targetLevel, ttsSpeed: S.ttsSpeed,
+    visitedTopics: S.visitedTopics, joinedDate: S.joinedDate,
   }));
 }
 function loadLocal() {
@@ -177,44 +180,85 @@ function addXP(n) {
 }
 
 function updateStatsUI() {
-  DOM.streakVal.textContent = S.streak;
-  DOM.wordsVal.textContent  = S.wordsLearned;
-  DOM.xpVal.textContent     = S.xp;
-  DOM.levelTag.textContent  = S.targetLevel || getLevel(S.xp).label;
+  DOM.streakVal.textContent  = S.streak;
+  DOM.wordsVal.textContent   = S.wordsLearned;
+  DOM.xpVal.textContent      = S.xp;
+  DOM.levelTag.textContent   = S.targetLevel || getLevel(S.xp).label;
   DOM.vocabCount.textContent = S.vocab.length;
-  // Update menu header
+
+  // Hamburger menu header
   const hdName = $('hdm-uname'); if (hdName) hdName.textContent = S.name || '—';
   const hdAvt  = $('hdm-avatar'); if (hdAvt) hdAvt.textContent = (S.name||'?').charAt(0).toUpperCase();
   const hdLvl  = $('hdm-lvl'); if (hdLvl) hdLvl.textContent = S.targetLevel || getLevel(S.xp).label;
   const hdXp   = $('hdm-xp2'); if (hdXp) hdXp.textContent = S.xp;
   const hdStr  = $('hdm-str'); if (hdStr) hdStr.textContent = S.streak;
   const hdWc   = $('hdm-wc'); if (hdWc) hdWc.textContent = S.vocab.length;
+
+  // Plan progress card
+  const visited  = (S.visitedTopics || []).length;
+  const pct      = Math.max(4, Math.min(100, Math.round((visited / 8) * 80 + (S.xp / 3000) * 20)));
+  const lvlLabel = S.targetLevel || getLevel(S.xp).label;
+  // Week estimate: 1 week per ~150 XP, capped at 24
+  const week = Math.min(24, Math.max(1, Math.ceil(S.xp / 150) || 1));
+
+  const planBar    = $('plan-bar-fill');   if (planBar)    planBar.style.width = pct + '%';
+  const planWeek   = $('plan-week-txt');   if (planWeek)   planWeek.textContent = `Semana ${week}`;
+  const planLvl    = $('plan-lvl-txt');    if (planLvl)    planLvl.textContent  = lvlLabel;
+  const planTopics = $('plan-topics-txt'); if (planTopics) planTopics.textContent = visited;
 }
 
 // ════════════════════════════════════════
 //  SPEECH — TTS
 // ════════════════════════════════════════
 const synth = window.speechSynthesis;
-let voices  = [];
-synth?.addEventListener?.('voiceschanged', () => { voices = synth.getVoices(); });
-
 const TTS_RATES = { slow: 0.78, normal: 0.95, fast: 1.15 };
+
+// Cache voices as soon as they load (critical for Android)
+let _cachedVoices = [];
+function _refreshVoices() { _cachedVoices = synth?.getVoices() || []; }
+if (synth) {
+  synth.addEventListener('voiceschanged', _refreshVoices);
+  _refreshVoices(); // works immediately on desktop
+}
+
+function _pickVoice(list) {
+  // Prefer high-quality cloud/Google voices; avoid robotic local TTS
+  return list.find(v => /google us english/i.test(v.name))
+      || list.find(v => /google uk english/i.test(v.name))
+      || list.find(v => /google/i.test(v.name) && /^en/i.test(v.lang))
+      || list.find(v => /samantha|karen|moira|victoria|zira/i.test(v.name))
+      || list.find(v => !v.localService && v.lang === 'en-US')
+      || list.find(v => !v.localService && /^en/i.test(v.lang))
+      || list.find(v => v.lang === 'en-US')
+      || list.find(v => /^en/i.test(v.lang));
+}
+
+function _doSpeak(text, vList) {
+  const utt  = new SpeechSynthesisUtterance(text);
+  utt.lang   = 'en-US';
+  utt.rate   = TTS_RATES[S.ttsSpeed] ?? 0.78;
+  utt.pitch  = 1.1;
+  const v = _pickVoice(vList);
+  if (v) utt.voice = v;
+  synth.speak(utt);
+}
 
 function speak(text) {
   if (!S.voiceOn || !synth) return;
   synth.cancel();
   const vList = synth.getVoices();
-  const utt = new SpeechSynthesisUtterance(text);
-  utt.lang  = 'en-US';
-  utt.rate  = TTS_RATES[S.ttsSpeed] ?? 0.78;
-  utt.pitch = 1.1;
-  const v = vList.find(v => /google us english/i.test(v.name))
-         || vList.find(v => /google uk english female/i.test(v.name))
-         || vList.find(v => /samantha|karen|moira|victoria|zira/i.test(v.name))
-         || vList.find(v => v.lang === 'en-US')
-         || vList.find(v => v.lang.startsWith('en'));
-  if (v) utt.voice = v;
-  synth.speak(utt);
+  if (vList.length) {
+    _doSpeak(text, vList);
+  } else if (_cachedVoices.length) {
+    _doSpeak(text, _cachedVoices);
+  } else {
+    // Android: voices not ready yet — wait for the event
+    const onReady = () => {
+      synth.removeEventListener('voiceschanged', onReady);
+      _doSpeak(text, synth.getVoices());
+    };
+    synth.addEventListener('voiceschanged', onReady);
+  }
 }
 
 // ════════════════════════════════════════
@@ -562,6 +606,12 @@ async function changeTopic(topic) {
   S.topic = topic;
   S.history = [];
   closeAllPanels();
+  // Track visited topics for plan progress
+  if (!S.visitedTopics) S.visitedTopics = [];
+  if (!S.visitedTopics.includes(topic)) {
+    S.visitedTopics.push(topic);
+    saveLocal();
+  }
   document.querySelectorAll('.topic-btn').forEach(b =>
     b.classList.toggle('active', b.dataset.topic === topic));
   DOM.messages.innerHTML = '';

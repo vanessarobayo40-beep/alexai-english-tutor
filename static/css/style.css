@@ -891,6 +891,52 @@ svg { flex-shrink: 0; }
 .level-pill { cursor: pointer; }
 .level-pill:hover { opacity: .85; transform: scale(1.05); transition: all .15s; }
 
+/* ───────────────────────────────────────
+   PLAN CARD (Harvard 6-month progress)
+   ─────────────────────────────────────── */
+.plan-card {
+  background: var(--grad-v); border-radius: 14px; padding: 14px 16px; color: #fff;
+  flex-shrink: 0;
+}
+.plan-card-top {
+  display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;
+}
+.plan-label { font-size: .7rem; font-weight: 700; letter-spacing: .04em; opacity: .85; }
+.plan-week {
+  font-size: .7rem; font-weight: 800; background: rgba(255,255,255,.22);
+  padding: 2px 9px; border-radius: 20px;
+}
+.plan-bar-track { background: rgba(255,255,255,.25); border-radius: 99px; height: 6px; margin-bottom: 10px; }
+.plan-bar-fill { background: #fff; border-radius: 99px; height: 6px; min-width: 6px; transition: width .5s var(--ease); }
+.plan-card-bot { font-size: .7rem; opacity: .82; }
+.plan-card-bot strong { font-weight: 800; opacity: 1; }
+
+/* ───────────────────────────────────────
+   CURRICULUM GROUPS
+   ─────────────────────────────────────── */
+.curr-group { margin-bottom: 10px; }
+.curr-group-hd {
+  display: flex; align-items: center; gap: 7px;
+  font-size: .67rem; font-weight: 700; color: var(--t3);
+  text-transform: uppercase; letter-spacing: .06em;
+  margin-bottom: 5px; padding: 0 4px;
+}
+.curr-badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: .6rem; font-weight: 900; padding: 2px 7px;
+  border-radius: 6px; letter-spacing: .04em; flex-shrink: 0;
+}
+.lvl-a1 { background: #DCFCE7; color: #15803D; }
+.lvl-a2 { background: #FEF3C7; color: #B45309; }
+.lvl-b1 { background: #EDE9FE; color: #6D28D9; }
+
+/* Topic button with subtitle */
+.tb-info { display: flex; flex-direction: column; flex: 1; min-width: 0; gap: 1px; }
+.tb-text { font-size: .85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tb-sub { font-size: .67rem; color: var(--t4); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.topic-btn.active .tb-sub { color: rgba(167,139,250,.75); }
+.topic-btn { align-items: center; }
+
 @media (max-width: 700px) {
   .hd-menu { width: 100%; border-radius: 0 0 18px 18px; }
   .level-dd { right: 8px; width: 200px; }
