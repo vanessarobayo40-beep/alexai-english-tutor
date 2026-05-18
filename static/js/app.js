@@ -688,8 +688,8 @@ function autoResize() {
 // ════════════════════════════════════════
 async function shareApp() {
   const url   = location.origin + '/';
-  const text  = `¡Aprende inglés conmigo en AlexAI! 🎓\nTutor de inglés con IA — método Harvard, gratis.\n${url}`;
-  const title = 'AlexAI — Tutor de inglés';
+  const text  = `¡Aprende inglés conmigo en ThiagoEnglish! 🎓\nTutor de inglés con IA — método Harvard, gratis.\n${url}`;
+  const title = 'ThiagoEnglish — Tutor de inglés';
 
   if (navigator.share) {
     try {
@@ -712,7 +712,7 @@ function triggerInstall() {
     _deferredInstall.prompt();
     _deferredInstall.userChoice.then(choice => {
       if (choice.outcome === 'accepted') {
-        toast('🎉 ¡AlexAI instalado!', 'success');
+        toast('🎉 ¡ThiagoEnglish instalado!', 'success');
       }
       _deferredInstall = null;
     });

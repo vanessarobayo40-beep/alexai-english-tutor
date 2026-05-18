@@ -1,4 +1,4 @@
-"""Generate AlexAI PWA icons (192px + 512px PNG)."""
+"""Generate ThiagoEnglish PWA icons (192px + 512px PNG)."""
 from PIL import Image, ImageDraw, ImageFont
 import os
 
@@ -38,7 +38,7 @@ def make_icon(size: int, filename: str) -> None:
         except OSError:
             font = ImageFont.load_default()
 
-    text = "A"
+    text = "T"
     bbox = d.textbbox((0, 0), text, font=font)
     tw, th = bbox[2] - bbox[0], bbox[3] - bbox[1]
     tx = (size - tw) // 2 - bbox[0]
@@ -66,7 +66,7 @@ def make_apple_icon(size: int, filename: str) -> None:
         except OSError:
             font = ImageFont.load_default()
 
-    text = "A"
+    text = "T"
     bbox = d.textbbox((0, 0), text, font=font)
     tw, th = bbox[2] - bbox[0], bbox[3] - bbox[1]
     tx = (size - tw) // 2 - bbox[0]
@@ -80,7 +80,7 @@ def make_apple_icon(size: int, filename: str) -> None:
 
 
 if __name__ == "__main__":
-    print("Generating AlexAI icons...")
+    print("Generating ThiagoEnglish icons...")
     make_icon(192, "icon-192.png")
     make_icon(512, "icon-512.png")
     make_apple_icon(180, "apple-touch-icon.png")

@@ -47,7 +47,7 @@ def get_db():
 init_db()
 
 # ── AI Prompts ────────────────────────────────────────────────────────
-SYSTEM_PROMPT = """You are Alex, a fun, energetic English tutor for Spanish-speaking beginners (A1-A2 level).
+SYSTEM_PROMPT = """You are Thiago, a fun, energetic English tutor for Spanish-speaking beginners (A1-A2 level).
 Your personality: enthusiastic, funny, like a cool friend who happens to teach English perfectly.
 You use Harvard methods: Krashen's i+1 Input, Active Production, Spaced Repetition, Low Affective Filter.
 
@@ -89,12 +89,12 @@ If no grammar error: has_error=false, leave original/corrected/tip as "".
 Always include vocabulary for ONE interesting word from YOUR message."""
 
 TOPIC_STARTERS = {
-    "general":    {"message": "Hello! I'm Alex, your English tutor! I'm really happy to meet you! What's your name, and where are you from?", "correction": {"has_error": False, "original": "", "corrected": "", "tip": ""}, "vocabulary": {"word": "tutor", "definition": "a teacher who works with one student", "spanish": "tutor / profesor particular", "example": "My English tutor is very helpful."}, "emotion": "excited"},
+    "general":    {"message": "Hello! I'm Thiago, your English tutor! I'm really happy to meet you! What's your name, and where are you from?", "correction": {"has_error": False, "original": "", "corrected": "", "tip": ""}, "vocabulary": {"word": "tutor", "definition": "a teacher who works with one student", "spanish": "tutor / profesor particular", "example": "My English tutor is very helpful."}, "emotion": "excited"},
     "shopping":   {"message": "Let's practice shopping English! Very useful for real life. Imagine we are at a supermarket right now. What do you usually buy?", "correction": {"has_error": False, "original": "", "corrected": "", "tip": ""}, "vocabulary": {"word": "supermarket", "definition": "a large store that sells food and household items", "spanish": "supermercado", "example": "I go to the supermarket every Saturday."}, "emotion": "happy"},
     "restaurant": {"message": "Welcome! Let's practice at a restaurant. I'll be your waiter today! Are you ready to order? What kind of food do you like?", "correction": {"has_error": False, "original": "", "corrected": "", "tip": ""}, "vocabulary": {"word": "order", "definition": "to ask for food or drinks in a restaurant", "spanish": "ordenar / pedir", "example": "I'd like to order a salad, please."}, "emotion": "happy"},
     "travel":     {"message": "Let's travel with English! We're at the airport right now. You have a trip today! Where would you like to go?", "correction": {"has_error": False, "original": "", "corrected": "", "tip": ""}, "vocabulary": {"word": "flight", "definition": "a trip on an airplane", "spanish": "vuelo", "example": "My flight leaves at 9am."}, "emotion": "excited"},
     "work":       {"message": "Let's practice work English — very useful for your career! Tell me, what do you do for work? Or what job do you want to have?", "correction": {"has_error": False, "original": "", "corrected": "", "tip": ""}, "vocabulary": {"word": "career", "definition": "your professional work life and job history", "spanish": "carrera profesional", "example": "She has a great career in technology."}, "emotion": "thinking"},
-    "social":     {"message": "Let's practice social English — making friends! Imagine we just met at a party. How do you usually say hello to new people?", "correction": {"has_error": False, "original": "", "corrected": "", "tip": ""}, "vocabulary": {"word": "introduce", "definition": "to tell someone your name when you meet them", "spanish": "presentar / presentarse", "example": "Let me introduce myself — my name is Alex!"}, "emotion": "happy"},
+    "social":     {"message": "Let's practice social English — making friends! Imagine we just met at a party. How do you usually say hello to new people?", "correction": {"has_error": False, "original": "", "corrected": "", "tip": ""}, "vocabulary": {"word": "introduce", "definition": "to tell someone your name when you meet them", "spanish": "presentar / presentarse", "example": "Let me introduce myself — my name is Thiago!"}, "emotion": "happy"},
     "health":     {"message": "Let's practice health English — very important to know! You are at the doctor's office today. How do you feel? What is the problem?", "correction": {"has_error": False, "original": "", "corrected": "", "tip": ""}, "vocabulary": {"word": "symptom", "definition": "a sign or feeling that shows you might be sick", "spanish": "síntoma", "example": "My main symptom is a headache."}, "emotion": "thinking"},
     "home":       {"message": "Let's talk about home life! Daily routines are perfect for beginners. What time do you usually wake up in the morning?", "correction": {"has_error": False, "original": "", "corrected": "", "tip": ""}, "vocabulary": {"word": "routine", "definition": "things you do regularly, usually in the same order", "spanish": "rutina", "example": "My morning routine starts at 7am."}, "emotion": "happy"}
 }
@@ -285,5 +285,5 @@ If no errors: corrections=[], grammar_score=100."""
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
-    print(f"\n🚀 AlexAI - English Tutor → http://localhost:{port}\n")
+    print(f"\n🚀 ThiagoEnglish - English Tutor → http://localhost:{port}\n")
     app.run(debug=False, host='0.0.0.0', port=port)

@@ -438,7 +438,7 @@ svg { flex-shrink: 0; }
   padding: 13px 17px; position: relative;
 }
 
-/* Alex bubble */
+/* Tutor (Thiago) bubble */
 .msg.alex .bubble {
   background: var(--surface);
   border: 1px solid var(--b3);

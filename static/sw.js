@@ -1,5 +1,5 @@
-/* AlexAI Service Worker — minimal cache for PWA installability */
-const CACHE = 'alexai-v3';
+/* ThiagoEnglish Service Worker — minimal cache for PWA installability */
+const CACHE = 'thiagoenglish-v1';
 const ASSETS = [
   '/',
   '/static/css/style.css',
