@@ -861,7 +861,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ── Topics ──────────────────────────────────────────────
   document.querySelectorAll('.topic-btn').forEach(btn =>
-    btn.addEventListener('click', () => { closeSidebar(); changeTopic(btn.dataset.topic); }));
+    btn.addEventListener('click', () => {
+      // Close sidebar and switch to Chat tab so user sees the conversation
+      document.querySelectorAll('.mnav-btn').forEach(b =>
+        b.classList.toggle('active', b.dataset.tab === 'chat'));
+      closeSidebar();
+      changeTopic(btn.dataset.topic);
+    }));
 
   // ── Mobile nav ──────────────────────────────────────────
   document.querySelectorAll('.mnav-btn').forEach(btn =>
