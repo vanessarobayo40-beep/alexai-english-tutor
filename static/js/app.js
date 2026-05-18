@@ -192,8 +192,13 @@ function speak(text) {
   if (!S.voiceOn || !synth) return;
   synth.cancel();
   const utt = new SpeechSynthesisUtterance(text);
-  utt.lang  = 'en-US'; utt.rate = 0.88; utt.pitch = 1.05;
-  const v = voices.find(v => v.lang.startsWith('en') && v.name.includes('Female'))
+  utt.lang  = 'en-US';
+  utt.rate  = 0.95;   // natural, energetic speed
+  utt.pitch = 1.15;   // expressive, friendly pitch
+  // Prefer high-quality natural voices
+  const v = voices.find(v => /samantha|karen|moira|victoria|google us english/i.test(v.name))
+         || voices.find(v => v.lang === 'en-US' && /female|woman|zira/i.test(v.name))
+         || voices.find(v => v.lang.startsWith('en-US'))
          || voices.find(v => v.lang.startsWith('en'));
   if (v) utt.voice = v;
   synth.speak(utt);
