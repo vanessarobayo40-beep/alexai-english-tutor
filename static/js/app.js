@@ -230,7 +230,12 @@ if (SR) {
 
   recognition.onerror = e => {
     if (e.error === 'not-allowed' || e.error === 'service-not-allowed') {
-      toast('Activa el micrófono en tu navegador ⚙️', 'error');
+      toast('🎤 Permite el micrófono: toca el ícono 🔒 en la barra del navegador', 'error');
+      stopListening();
+    } else if (e.error === 'no-speech') {
+      // silence — normal, will auto-restart
+    } else {
+      toast(`Micrófono: ${e.error}`, 'error');
       stopListening();
     }
   };
@@ -281,7 +286,7 @@ function toast(msg, type = '') {
   el.textContent = msg;
   el.className = `toast show ${type}`;
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => { el.className = 'toast'; }, 2800);
+  toastTimer = setTimeout(() => { el.className = 'toast'; }, 4000);
 }
 
 // ════════════════════════════════════════
@@ -295,8 +300,10 @@ function closeAllPanels() {
 function showPanel(name, html) {
   closeAllPanels();
   $(`${name}-body`).innerHTML = html;
-  $(`panel-${name}`).classList.remove('hidden');
+  const panel = $(`panel-${name}`);
+  panel.classList.remove('hidden');
   scrollToBottom();
+  setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 60);
 }
 
 document.querySelectorAll('.panel-x').forEach(btn => {
@@ -657,6 +664,7 @@ document.addEventListener('DOMContentLoaded', () => {
   DOM.menuBtn.addEventListener('click', () =>
     DOM.sidebar.classList.contains('open') ? closeSidebar() : openSidebar());
   DOM.overlay.addEventListener('click', closeSidebar);
+  $('sidebar-close')?.addEventListener('click', closeSidebar);
 
   // ── Input ───────────────────────────────────────────────
   DOM.sendBtn.addEventListener('click', () => { const t = DOM.msgInput.value.trim(); if (t) sendMessage(t); });
@@ -678,6 +686,7 @@ document.addEventListener('DOMContentLoaded', () => {
     S.voiceOn = !S.voiceOn;
     DOM.btnSpeakToggle.classList.toggle('active', !S.voiceOn);
     if (!S.voiceOn) synth?.cancel?.();
+    toast(S.voiceOn ? '🔊 Voz activada' : '🔇 Voz desactivada', S.voiceOn ? 'success' : '');
     scheduleSave();
   });
 

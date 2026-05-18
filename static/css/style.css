@@ -761,6 +761,11 @@ svg { flex-shrink: 0; }
 /* ───────────────────────────────────────
    RESPONSIVE — MOBILE
    ─────────────────────────────────────── */
+/* Sidebar close button */
+.sb-close {
+  display: none;
+}
+
 @media (max-width: 700px) {
   :root { --hh: 56px; --sw: 284px; }
 
@@ -770,6 +775,16 @@ svg { flex-shrink: 0; }
     box-shadow: 4px 0 40px rgba(0,0,0,.8);
   }
   .sidebar.open { transform: translateX(0); }
+
+  .sb-close {
+    display: flex; position: absolute; top: 12px; right: 12px; z-index: 2;
+    width: 34px; height: 34px; border-radius: 50%;
+    background: var(--card2); border: 1px solid var(--b2);
+    align-items: center; justify-content: center;
+    color: var(--t2); font-size: 1rem; cursor: pointer;
+    transition: background .15s, color .15s;
+  }
+  .sb-close:hover { background: var(--b3); color: var(--t1); }
 
   .app-body { bottom: var(--nh); }
   .mnav-bar { display: flex; }
@@ -784,6 +799,7 @@ svg { flex-shrink: 0; }
   .t-btn { font-size: .72rem; padding: 5px 10px; }
   .input-row { padding: 8px 10px 12px; gap: 7px; }
   .panel { margin: 0 8px 6px; }
+  .panel-content { max-height: 40vh; overflow-y: auto; }
   .ob-card { padding: 28px 20px 22px; }
   .ob-title { font-size: 2rem; }
 }
