@@ -778,6 +778,7 @@ svg { flex-shrink: 0; }
     transform: translateX(-100%);
     box-shadow: 0 8px 40px rgba(109,40,217,.25);
     border-right: none; border-bottom: 1px solid var(--b2);
+    backdrop-filter: none; background: rgba(248,246,255,1);
   }
   .sidebar.open { transform: translateX(0); }
 

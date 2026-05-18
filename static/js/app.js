@@ -667,24 +667,36 @@ async function changeTopic(topic) {
 //  SIDEBAR
 // ════════════════════════════════════════
 function openSidebar()  { DOM.sidebar.classList.add('open');    DOM.overlay.classList.add('active'); }
-function closeSidebar() { DOM.sidebar.classList.remove('open'); DOM.overlay.classList.remove('active'); }
+function closeSidebar() {
+  DOM.sidebar.classList.remove('open');
+  DOM.overlay.classList.remove('active');
+  showSidebarSections('all');
+}
 
-function scrollSidebarTo(sectionId) {
-  const inner = document.querySelector('.sb-inner');
-  const section = $(sectionId);
-  if (!inner || !section) return;
-  const delta = section.getBoundingClientRect().top - inner.getBoundingClientRect().top;
-  inner.scrollBy({ top: delta - 8, behavior: 'smooth' });
+function showSidebarSections(mode) {
+  const plan      = document.querySelector('.plan-card');
+  const topics    = $('topics-section');
+  const vocab     = $('vocab-section');
+  const lb        = $('leaderboard-section');
+  const show = el => el && (el.style.display = '');
+  const hide = el => el && (el.style.display = 'none');
+  if (mode === 'topics') {
+    show(plan); show(topics); hide(vocab); hide(lb);
+  } else if (mode === 'vocab') {
+    hide(plan); hide(topics); show(vocab); hide(lb);
+  } else {
+    show(plan); show(topics); show(vocab); show(lb);
+  }
 }
 
 function setMobileTab(tab) {
   document.querySelectorAll('.mnav-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
   if (tab === 'topics') {
+    showSidebarSections('topics');
     openSidebar();
-    setTimeout(() => scrollSidebarTo('topics-section'), 240);
   } else if (tab === 'vocab') {
+    showSidebarSections('vocab');
     openSidebar();
-    setTimeout(() => scrollSidebarTo('vocab-section'), 240);
   } else {
     closeSidebar();
   }
@@ -883,21 +895,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (action === 'topics') {
         closeHdMenu();
+        showSidebarSections('topics');
         openSidebar();
-        // scroll to topics section inside sidebar
-        setTimeout(() => $('topics-section')?.scrollIntoView({ behavior:'smooth', block:'start' }), 150);
         return;
       }
       if (action === 'vocab') {
         closeHdMenu();
+        showSidebarSections('vocab');
         openSidebar();
-        setTimeout(() => $('vocab-section')?.scrollIntoView({ behavior:'smooth', block:'start' }), 150);
         return;
       }
       if (action === 'family') {
         closeHdMenu();
+        showSidebarSections('all');
         openSidebar();
-        setTimeout(() => $('leaderboard-section')?.scrollIntoView({ behavior:'smooth', block:'start' }), 150);
         return;
       }
       if (action === 'voice') {
