@@ -1,24 +1,39 @@
 {
   "name": "AlexAI — English Tutor",
   "short_name": "AlexAI",
-  "description": "Tu tutor de inglés personal con IA",
+  "description": "Tu tutor de inglés personal con IA — método Harvard",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
-  "background_color": "#06080F",
-  "theme_color": "#7C3AED",
   "orientation": "portrait-primary",
+  "background_color": "#FFFFFF",
+  "theme_color": "#7C3AED",
+  "lang": "es",
+  "categories": ["education", "productivity"],
   "icons": [
     {
       "src": "/static/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "/static/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
     },
     {
       "src": "/static/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "/static/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }

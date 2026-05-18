@@ -1,6 +1,41 @@
 'use strict';
 
 // ════════════════════════════════════════
+//  PWA — Service Worker + Install
+// ════════════════════════════════════════
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch(() => {});
+  });
+}
+
+let _deferredInstall = null;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  _deferredInstall = e;
+  // Show install option in hamburger menu
+  const btn = document.getElementById('hdm-install-btn');
+  if (btn) btn.classList.remove('hidden');
+  // Show banner if user hasn't dismissed it
+  if (!localStorage.getItem('alexai-install-dismissed')) {
+    const banner = document.getElementById('install-banner');
+    if (banner) banner.classList.remove('hidden');
+  }
+});
+
+window.addEventListener('appinstalled', () => {
+  _deferredInstall = null;
+  localStorage.setItem('alexai-install-dismissed', '1');
+  document.getElementById('install-banner')?.classList.add('hidden');
+  document.getElementById('hdm-install-btn')?.classList.add('hidden');
+});
+
+const _isIOS    = /iphone|ipad|ipod/i.test(navigator.userAgent);
+const _isStandalone = window.matchMedia('(display-mode: standalone)').matches
+                  || window.navigator.standalone === true;
+
+
+// ════════════════════════════════════════
 //  STATE
 // ════════════════════════════════════════
 const S = {
@@ -649,6 +684,46 @@ function autoResize() {
 }
 
 // ════════════════════════════════════════
+//  SHARE + INSTALL
+// ════════════════════════════════════════
+async function shareApp() {
+  const url   = location.origin + '/';
+  const text  = `¡Aprende inglés conmigo en AlexAI! 🎓\nTutor de inglés con IA — método Harvard, gratis.\n${url}`;
+  const title = 'AlexAI — Tutor de inglés';
+
+  if (navigator.share) {
+    try {
+      await navigator.share({ title, text, url });
+      toast('¡Gracias por compartir! 💜', 'success');
+    } catch (_) { /* user cancelled */ }
+  } else {
+    // Desktop: copy to clipboard
+    try {
+      await navigator.clipboard.writeText(text);
+      toast('🔗 Enlace copiado al portapapeles', 'success');
+    } catch (_) {
+      prompt('Copia este enlace para compartir:', url);
+    }
+  }
+}
+
+function triggerInstall() {
+  if (_deferredInstall) {
+    _deferredInstall.prompt();
+    _deferredInstall.userChoice.then(choice => {
+      if (choice.outcome === 'accepted') {
+        toast('🎉 ¡AlexAI instalado!', 'success');
+      }
+      _deferredInstall = null;
+    });
+  } else if (_isIOS && !_isStandalone) {
+    document.getElementById('ios-tip')?.classList.remove('hidden');
+  } else {
+    toast('Abre la app desde Chrome o Safari para instalarla', '');
+  }
+}
+
+// ════════════════════════════════════════
 //  UTIL
 // ════════════════════════════════════════
 function escHtml(s) {
@@ -818,6 +893,16 @@ document.addEventListener('DOMContentLoaded', () => {
         scheduleSave();
         return;
       }
+      if (action === 'share') {
+        closeHdMenu();
+        shareApp();
+        return;
+      }
+      if (action === 'install') {
+        closeHdMenu();
+        triggerInstall();
+        return;
+      }
       // Speed buttons: slow | normal | fast
       if (action === 'slow' || action === 'normal' || action === 'fast') {
         S.ttsSpeed = action;
@@ -862,6 +947,27 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('popstate', () => {
     history.pushState(null, '', location.href);
   });
+
+  // ── Install banner buttons ─────────────────────────────
+  $('install-yes')?.addEventListener('click', () => {
+    $('install-banner')?.classList.add('hidden');
+    triggerInstall();
+  });
+  $('install-no')?.addEventListener('click', () => {
+    $('install-banner')?.classList.add('hidden');
+    localStorage.setItem('alexai-install-dismissed', '1');
+  });
+  $('ios-tip-close')?.addEventListener('click', () => {
+    $('ios-tip')?.classList.add('hidden');
+  });
+
+  // ── iOS install tip (Safari ignora beforeinstallprompt) ─
+  if (_isIOS && !_isStandalone && !localStorage.getItem('alexai-ios-tip-shown')) {
+    setTimeout(() => {
+      $('ios-tip')?.classList.remove('hidden');
+      localStorage.setItem('alexai-ios-tip-shown', '1');
+    }, 8000);
+  }
 
   // ── Boot ────────────────────────────────────────────────
   loadLocal();

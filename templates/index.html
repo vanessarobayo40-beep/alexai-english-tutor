@@ -2,15 +2,33 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>AlexAI — English Tutor</title>
+
+  <!-- PWA -->
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#7C3AED">
+  <meta name="application-name" content="AlexAI">
+  <meta name="description" content="Tu tutor de inglés personal con IA — método Harvard. Aprende inglés conversando en 6 meses.">
+
+  <!-- iOS -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="AlexAI">
+  <link rel="apple-touch-icon" href="/static/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/static/icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/static/icon-512.png">
+
+  <!-- Open Graph (para WhatsApp / redes) -->
+  <meta property="og:title" content="AlexAI — Tu tutor de inglés con IA">
+  <meta property="og:description" content="Aprende inglés conversando — método Harvard, gratis, en tu navegador o celular.">
+  <meta property="og:image" content="/static/icon-512.png">
+  <meta property="og:type" content="website">
+
+  <!-- Fonts + styles -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;0,14..32,900;1,14..32,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/static/css/style.css">
-  <meta name="theme-color" content="#06080F">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-title" content="AlexAI">
-  <link rel="manifest" href="/static/manifest.json">
 </head>
 <body>
 
@@ -117,6 +135,10 @@
     <button class="hdm-btn" data-hdm="topics">📚 Cambiar tema</button>
     <button class="hdm-btn" data-hdm="vocab">📖 Mi vocabulario (<span id="hdm-wc">0</span> palabras)</button>
     <button class="hdm-btn" data-hdm="family">🏆 Ranking familiar</button>
+    <div class="hdm-div"></div>
+    <div class="hdm-label">Compartir</div>
+    <button class="hdm-btn" data-hdm="share">📤 Compartir AlexAI</button>
+    <button class="hdm-btn hdm-install hidden" id="hdm-install-btn" data-hdm="install">📲 Instalar en mi celular</button>
     <div class="hdm-div"></div>
     <div class="hdm-label">Configuración</div>
     <button class="hdm-btn" id="hdm-voice-btn" data-hdm="voice">🔊 Voz: activada</button>
@@ -360,6 +382,25 @@
 
 <!-- Overlay -->
 <div id="overlay" class="overlay"></div>
+
+<!-- Banner instalación PWA (aparece automáticamente en Android Chrome) -->
+<div id="install-banner" class="install-banner hidden">
+  <div class="ib-icon">📲</div>
+  <div class="ib-text">
+    <div class="ib-title">¡Instala AlexAI!</div>
+    <div class="ib-sub">Tenlo como app en tu celular — más rápido</div>
+  </div>
+  <button class="ib-yes" id="install-yes">Instalar</button>
+  <button class="ib-no" id="install-no" aria-label="Cerrar">✕</button>
+</div>
+
+<!-- Tip iOS (Safari no soporta beforeinstallprompt) -->
+<div id="ios-tip" class="ios-tip hidden">
+  <div class="iot-text">
+    📱 Para instalar en iPhone: toca <strong>Compartir</strong> ⬆️ → <strong>Agregar a inicio</strong>
+  </div>
+  <button class="iot-close" id="ios-tip-close">Entendido</button>
+</div>
 
 <script src="/static/js/app.js"></script>
 </body>

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, send_from_directory, Response
 from openai import OpenAI
 import os, json, re, sqlite3
 from dotenv import load_dotenv
@@ -115,6 +115,18 @@ def clean_json(text):
 @app.route('/')
 def index():
     return render_template('index.html')
+
+# Service worker must be served from root scope to control the whole app
+@app.route('/sw.js')
+def service_worker():
+    resp = send_from_directory(app.static_folder, 'sw.js')
+    resp.headers['Service-Worker-Allowed'] = '/'
+    resp.headers['Cache-Control'] = 'no-cache'
+    return resp
+
+@app.route('/manifest.json')
+def manifest_alias():
+    return send_from_directory(app.static_folder, 'manifest.json')
 
 # ── User endpoints ────────────────────────────────────────────────────
 @app.route('/api/user/login', methods=['POST'])
