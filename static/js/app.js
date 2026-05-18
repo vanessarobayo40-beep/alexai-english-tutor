@@ -669,9 +669,25 @@ async function changeTopic(topic) {
 function openSidebar()  { DOM.sidebar.classList.add('open');    DOM.overlay.classList.add('active'); }
 function closeSidebar() { DOM.sidebar.classList.remove('open'); DOM.overlay.classList.remove('active'); }
 
+function scrollSidebarTo(sectionId) {
+  const inner = document.querySelector('.sb-inner');
+  const section = $(sectionId);
+  if (!inner || !section) return;
+  const delta = section.getBoundingClientRect().top - inner.getBoundingClientRect().top;
+  inner.scrollBy({ top: delta - 8, behavior: 'smooth' });
+}
+
 function setMobileTab(tab) {
   document.querySelectorAll('.mnav-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
-  if (tab === 'topics' || tab === 'vocab') openSidebar(); else closeSidebar();
+  if (tab === 'topics') {
+    openSidebar();
+    setTimeout(() => scrollSidebarTo('topics-section'), 240);
+  } else if (tab === 'vocab') {
+    openSidebar();
+    setTimeout(() => scrollSidebarTo('vocab-section'), 240);
+  } else {
+    closeSidebar();
+  }
 }
 
 // ════════════════════════════════════════

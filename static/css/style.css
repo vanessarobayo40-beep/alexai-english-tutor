@@ -828,6 +828,8 @@ svg { flex-shrink: 0; }
   border: 1px solid var(--b2); border-radius: 0 0 18px 0;
   box-shadow: var(--sh3); padding: 16px 0 12px;
   animation: menuDrop .2s var(--ease) both;
+  max-height: calc(100vh - var(--hh) - 12px);
+  overflow-y: auto;
 }
 @keyframes menuDrop { from{opacity:0;transform:translateY(-8px)} to{opacity:1;transform:translateY(0)} }
 .hd-menu.hidden { display: none; }
