@@ -191,15 +191,17 @@ synth?.addEventListener?.('voiceschanged', () => { voices = synth.getVoices(); }
 function speak(text) {
   if (!S.voiceOn || !synth) return;
   synth.cancel();
+  // Re-fetch voices each time (Android Chrome loads them async)
+  const vList = synth.getVoices();
   const utt = new SpeechSynthesisUtterance(text);
   utt.lang  = 'en-US';
-  utt.rate  = 0.95;   // natural, energetic speed
-  utt.pitch = 1.15;   // expressive, friendly pitch
-  // Prefer high-quality natural voices
-  const v = voices.find(v => /samantha|karen|moira|victoria|google us english/i.test(v.name))
-         || voices.find(v => v.lang === 'en-US' && /female|woman|zira/i.test(v.name))
-         || voices.find(v => v.lang.startsWith('en-US'))
-         || voices.find(v => v.lang.startsWith('en'));
+  utt.rate  = 0.95;
+  utt.pitch = 1.15;
+  const v = vList.find(v => /google us english/i.test(v.name))
+         || vList.find(v => /google uk english female/i.test(v.name))
+         || vList.find(v => /samantha|karen|moira|victoria|zira/i.test(v.name))
+         || vList.find(v => v.lang === 'en-US')
+         || vList.find(v => v.lang.startsWith('en'));
   if (v) utt.voice = v;
   synth.speak(utt);
 }
