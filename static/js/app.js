@@ -737,7 +737,10 @@ async function changeTopic(topic) {
 // ════════════════════════════════════════
 //  SIDEBAR
 // ════════════════════════════════════════
-function openSidebar()  { DOM.sidebar.classList.add('open');    DOM.overlay.classList.add('active'); }
+function openSidebar() {
+  DOM.sidebar.classList.add('open');
+  if (window.innerWidth <= 700) DOM.overlay.classList.add('active');
+}
 function closeSidebar() {
   DOM.sidebar.classList.remove('open');
   DOM.overlay.classList.remove('active');
