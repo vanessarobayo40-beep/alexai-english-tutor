@@ -1201,7 +1201,62 @@ svg { flex-shrink: 0; }
 .sp-video-wrap iframe,
 .sp-video-wrap #yt-iframe { width: 100% !important; height: 100% !important; display: block; }
 
-/* Bottom: dialogue */
+/* ── Live subtitle bar ───────────────────────────────── */
+.sp-subtitle-now {
+  flex-shrink: 0;
+  background: #161616;
+  border-bottom: 1px solid rgba(249,115,22,.18);
+  padding: 10px 16px 8px;
+  text-align: center;
+  min-height: 70px;
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+}
+.sp-sub-speaker {
+  font-size: .62rem; font-weight: 800; letter-spacing: .1em;
+  text-transform: uppercase; color: #F97316; opacity: .9;
+  min-height: 14px;
+}
+.sp-sub-en {
+  font-size: 1.2rem; font-weight: 700; color: #fff;
+  line-height: 1.4; word-spacing: 3px;
+}
+.sp-sub-es {
+  font-size: .8rem; color: rgba(255,255,255,.42); font-style: italic;
+  line-height: 1.3;
+}
+.sp-sub-hint {
+  font-size: .58rem; color: rgba(255,255,255,.2); margin-top: 2px;
+  letter-spacing: .04em;
+}
+
+/* Clickable word in subtitle */
+.sw {
+  display: inline-block; cursor: pointer;
+  border-radius: 5px; padding: 1px 2px;
+  transition: background .12s, color .12s;
+  border-bottom: 1.5px solid transparent;
+}
+.sw:hover { background: rgba(249,115,22,.25); color: #FB923C; border-bottom-color: #F97316; }
+.sw:active { background: rgba(249,115,22,.4); }
+
+/* Word translation tooltip */
+.word-tooltip {
+  position: fixed; z-index: 9900;
+  background: #1C100A; border: 1.5px solid #F97316;
+  border-radius: 12px; padding: 9px 16px;
+  display: flex; align-items: center; gap: 10px;
+  font-size: .92rem; color: #fff;
+  box-shadow: 0 8px 32px rgba(249,115,22,.35);
+  pointer-events: none;
+  animation: subFadeIn .15s ease both;
+}
+.word-tooltip.hidden { display: none; }
+.wt-word { font-weight: 800; color: #fff; }
+.wt-sep { color: #F97316; font-weight: 700; }
+.wt-trans { font-weight: 700; color: #FCD34D; }
+@keyframes subFadeIn { from { opacity:0; transform:translateY(4px) } to { opacity:1; transform:none } }
+
+/* Bottom: dialogue list */
 .sp-bottom {
   flex: 1; overflow-y: auto; padding: 0 0 16px;
   -webkit-overflow-scrolling: touch;
@@ -1224,7 +1279,7 @@ svg { flex-shrink: 0; }
 }
 .spc-card:hover { background: #222; }
 .spc-card.active {
-  border-left-color: #F97316;   /* naranja como Simpler */
+  border-left-color: #F97316;
   background: #1F1209;
 }
 .spc-speaker {
@@ -1253,7 +1308,7 @@ svg { flex-shrink: 0; }
 }
 .spc-btn:active { opacity:.85; transform:scale(.97); }
 
-/* Office card — watch button update */
+/* Office card */
 .oc-ep { font-size: .68rem; color: var(--t4); margin-bottom: 5px; }
 .oc-watch {
   width: 100%; background: #1A1A1A; color: #fff;
@@ -1267,5 +1322,7 @@ svg { flex-shrink: 0; }
 
 @media (max-width: 700px) {
   .sp-video-wrap { max-height: 35vw; }
+  .sp-subtitle-now { min-height: 60px; padding: 8px 12px 6px; }
+  .sp-sub-en { font-size: 1rem; }
   .spc-text { font-size: .95rem; }
 }

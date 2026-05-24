@@ -47,7 +47,12 @@ async function requestWakeLock() {
   } catch(_) {}
 }
 document.addEventListener('visibilitychange', () => {
-  if (document.visibilityState === 'visible' && _wakeLock === null) requestWakeLock();
+  if (document.visibilityState === 'visible') {
+    if (_wakeLock === null) requestWakeLock();
+    // Re-save progress when returning to app (covers Render sleep gaps)
+    saveLocal();
+    if (S.name && S.syncPending) syncToServer();
+  }
 });
 
 // ════════════════════════════════════════
@@ -390,6 +395,8 @@ let syncTimer = null;
 async function syncToServer() {
   if (!S.name) return;
   try {
+    const ctrl = new AbortController();
+    const tid  = setTimeout(() => ctrl.abort(), 9000);
     await fetch('/api/user/save', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -398,9 +405,11 @@ async function syncToServer() {
         wordsLearned: S.wordsLearned, vocab: S.vocab,
         lastActivity: S.lastActivity, voiceOn: S.voiceOn,
       }),
+      signal: ctrl.signal,
     });
+    clearTimeout(tid);
     S.syncPending = false;
-  } catch(_) { /* offline — localStorage still has it */ }
+  } catch(_) { /* offline — localStorage siempre tiene los datos */ }
 }
 
 function scheduleSave() {
@@ -828,11 +837,16 @@ async function sendMessage(text) {
   DOM.sendBtn.disabled = true;
   showTyping(); addXP(5);
 
+  const ctrl   = new AbortController();
+  const wakeId = setTimeout(() => toast('⏳ Despertando servidor… ~20 seg', ''), 5000);
+  const timeId = setTimeout(() => ctrl.abort(), 35000);
   try {
     const res  = await fetch('/api/chat', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ messages: S.history, topic: S.topic }),
+      signal: ctrl.signal,
     });
+    clearTimeout(wakeId); clearTimeout(timeId);
     const json = await res.json();
     removeTyping();
     if (!json.success) throw new Error(json.error || 'Error del servidor');
@@ -843,9 +857,13 @@ async function sendMessage(text) {
     if (json.data.correction?.has_error) addXP(8);
 
   } catch(err) {
+    clearTimeout(wakeId); clearTimeout(timeId);
     removeTyping();
-    toast(`Error: ${err.message}`, 'error');
-    addAlexBubble({ message:"Sorry, connection problem. Try again?",
+    const msg = err.name === 'AbortError'
+      ? 'El servidor tardó demasiado. Intenta de nuevo.'
+      : `Sin conexión. Intenta de nuevo.`;
+    toast(msg, 'error');
+    addAlexBubble({ message: msg,
       correction:{has_error:false,original:'',corrected:'',tip:''},
       vocabulary:{word:'',definition:'',spanish:'',example:''},
       emotion:'thinking' });
@@ -1093,13 +1111,16 @@ function renderOfficeScenes() {
 // ════════════════════════════════════════
 //  SCENE PLAYER — YouTube + subtítulos
 // ════════════════════════════════════════
-let _ytPlayer       = null;
-let _ytReady        = false;
-let _ytSyncTimer    = null;
-let _currentScene   = null;   // single-scene mode (quick practice)
-let _currentEp      = null;   // episode mode
+let _ytPlayer        = null;
+let _ytReady         = false;
+let _ytSyncTimer     = null;
+let _currentScene    = null;
+let _currentEp       = null;
 let _currentSceneIdx = 0;
-let _pendingYTId    = null;
+let _pendingYTId     = null;
+let _lastSubIdx      = -1;
+let _wordCache       = {};
+let _tooltipTimer    = null;
 
 // Called by YouTube IFrame API when ready
 window.onYouTubeIframeAPIReady = function() {
@@ -1135,6 +1156,14 @@ function _syncSubs() {
   const t = _ytPlayer.getCurrentTime();
   let activeIdx = 0;
   _currentScene.dialogue.forEach((l, i) => { if (t >= l.t) activeIdx = i; });
+
+  // Update the live subtitle bar only when the line changes
+  if (_lastSubIdx !== activeIdx) {
+    _lastSubIdx = activeIdx;
+    _updateSubtitleBar(_currentScene.dialogue[activeIdx]);
+  }
+
+  // Scroll the dialogue card list
   document.querySelectorAll('.spc-card').forEach((card, i) => {
     const isActive = i === activeIdx;
     if (isActive && !card.classList.contains('active')) {
@@ -1144,6 +1173,70 @@ function _syncSubs() {
       card.classList.remove('active');
     }
   });
+}
+
+// Render one line into the subtitle bar with clickable words
+function _updateSubtitleBar(line) {
+  if (!line) return;
+  const spk = $('sp-sub-speaker');
+  const en  = $('sp-sub-en');
+  const es  = $('sp-sub-es');
+  if (!spk || !en || !es) return;
+
+  spk.textContent = `${line.emoji}  ${line.speaker}`;
+
+  // Split into word tokens and punctuation tokens
+  const parts = line.text.match(/[\w']+|[^\w']+/g) || [];
+  en.innerHTML = parts.map(p =>
+    /\w/.test(p)
+      ? `<span class="sw" data-w="${escHtml(p)}">${escHtml(p)}</span>`
+      : escHtml(p)
+  ).join('');
+
+  es.textContent = line.es;
+
+  // Attach click-to-translate on each word
+  en.querySelectorAll('.sw').forEach(span =>
+    span.addEventListener('click', e => {
+      e.stopPropagation();
+      _showWordTooltip(span.dataset.w, span);
+    })
+  );
+}
+
+// Show translation tooltip for a clicked word
+async function _showWordTooltip(word, el) {
+  const clean = word.replace(/[^a-zA-Z']/g, '').toLowerCase();
+  if (!clean || clean.length < 2) return;
+
+  const tip = $('word-tooltip');
+  if (!tip) return;
+
+  // Position above the word
+  const r = el.getBoundingClientRect();
+  tip.style.left = Math.max(8, Math.min(r.left + r.width / 2 - 70, window.innerWidth - 160)) + 'px';
+  tip.style.top  = Math.max(8, r.top - 52) + 'px';
+  $('wt-word').textContent  = clean;
+  $('wt-trans').textContent = '...';
+  tip.classList.remove('hidden');
+
+  clearTimeout(_tooltipTimer);
+  _tooltipTimer = setTimeout(() => tip.classList.add('hidden'), 4000);
+
+  if (_wordCache[clean]) { $('wt-trans').textContent = _wordCache[clean]; return; }
+
+  try {
+    const res = await fetch('/api/translate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text: clean, direction: 'to_spanish' }),
+    });
+    const d = await res.json();
+    if (d.success) {
+      _wordCache[clean] = d.translation;
+      $('wt-trans').textContent = d.translation;
+    }
+  } catch(_) { $('wt-trans').textContent = '?'; }
 }
 
 // Open a full episode (with scene selector)
@@ -1187,14 +1280,17 @@ function _renderSceneTabs(ep) {
 function _loadEpisodeScene(ep, idx) {
   const scene = ep.scenes[idx];
   if (!scene) return;
+  _lastSubIdx   = -1;
   _currentScene = { ...scene, youtubeId: ep.youtubeId };
   _renderSceneDialogue(_currentScene);
+  _updateSubtitleBar(_currentScene.dialogue[0]);
 }
 
 // Open a single quick-practice scene
 function openScenePlayer(scene) {
   _currentScene = scene;
   _currentEp    = null;
+  _lastSubIdx   = -1;
   closeSidebar();
   $('sp-scene-title').textContent = scene.title;
   $('sp-scene-ep').textContent    = scene.ep || '';
@@ -1203,6 +1299,7 @@ function openScenePlayer(scene) {
   if (prevBtn) { prevBtn.style.opacity = '.25'; prevBtn.disabled = true; }
   if (nextBtn) { nextBtn.style.opacity = '.25'; nextBtn.disabled = true; }
   _renderSceneDialogue(scene);
+  _updateSubtitleBar(scene.dialogue[0]);
   $('scene-player').classList.remove('hidden');
   document.body.style.overflow = 'hidden';
   if (_ytReady) _createYTPlayer(scene.youtubeId);
@@ -1212,6 +1309,8 @@ function openScenePlayer(scene) {
 function closeScenePlayer() {
   _stopSync();
   _ytPlayer?.pauseVideo?.();
+  clearTimeout(_tooltipTimer);
+  $('word-tooltip')?.classList.add('hidden');
   $('scene-player').classList.add('hidden');
   document.body.style.overflow = '';
 }

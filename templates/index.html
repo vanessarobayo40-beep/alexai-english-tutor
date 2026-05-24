@@ -434,17 +434,32 @@
     <div id="yt-iframe"></div>
   </div>
 
+  <!-- Live subtitle bar (updates as video plays) -->
+  <div id="sp-subtitle-now" class="sp-subtitle-now">
+    <div class="sp-sub-speaker" id="sp-sub-speaker"></div>
+    <div class="sp-sub-en" id="sp-sub-en"></div>
+    <div class="sp-sub-es" id="sp-sub-es"></div>
+    <div class="sp-sub-hint">Toca una palabra para ver su traducción</div>
+  </div>
+
   <!-- Scene selector tabs -->
   <div class="sp-scenes-bar" id="sp-scenes-bar"></div>
 
-  <!-- Dialogue -->
+  <!-- Dialogue list (all lines, scroll + tap to seek) -->
   <div class="sp-bottom">
     <div class="sp-label-row">
-      <span class="sp-section-label">📝 Toca una línea para ir a ese momento · 🎤 para practicar</span>
+      <span class="sp-section-label">📋 Todas las líneas · toca para ir al momento · 🎤 practicar</span>
     </div>
     <div id="sp-dialogue-list" class="sp-dialogue-list"></div>
   </div>
 
+</div>
+
+<!-- Word translation tooltip -->
+<div id="word-tooltip" class="word-tooltip hidden">
+  <span class="wt-word" id="wt-word"></span>
+  <span class="wt-sep">→</span>
+  <span class="wt-trans" id="wt-trans">...</span>
 </div>
 
 <!-- YouTube IFrame API -->
