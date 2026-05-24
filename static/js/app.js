@@ -801,18 +801,7 @@ function escHtml(s) {
 // ════════════════════════════════════════
 //  INIT APP
 // ════════════════════════════════════════
-function _showWelcome() {
-  DOM.messages.innerHTML = '';
-  const name = S.name ? S.name.split(' ')[0] : '';
-  addAlexBubble({
-    message: `Hello${name ? ', ' + name : ''}! I'm Alex, your English tutor. What would you like to practice today? You can write or speak — I'm here to help! 😊`,
-    correction: { has_error: false, original: '', corrected: '', tip: '' },
-    vocabulary: { word: '', definition: '', spanish: '', example: '' },
-    emotion: 'happy',
-  });
-}
-
-async function initApp() {
+function initApp() {
   DOM.onboarding.classList.remove('active');
   DOM.app.classList.add('active');
   checkStreak();
@@ -824,7 +813,7 @@ async function initApp() {
   }
   requestWakeLock();
   setInterval(() => { if (S.name) fetch('/api/leaderboard').catch(() => {}); }, 240000);
-  _showWelcome();
+  DOM.messages.innerHTML = '';
   loadLeaderboard();
   setInterval(loadLeaderboard, 30000);
 }
@@ -1057,8 +1046,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // ── Boot ────────────────────────────────────────────────
   loadLocal();
   if (S.name) {
-    // Returning user — re-login to sync from server
-    loginUser(S.name).then(() => initApp());
+    // Show app immediately from local data, sync with server in background
+    initApp();
+    loginUser(S.name).then(() => { updateStatsUI(); renderVocabSidebar(); }).catch(() => {});
   }
   // else: show onboarding
 });
