@@ -1129,23 +1129,28 @@ window.onYouTubeIframeAPIReady = function() {
 };
 
 function _createYTPlayer(videoId) {
-  if (_ytPlayer) { _ytPlayer.loadVideoById(videoId); return; }
+  if (_ytPlayer) {
+    _ytPlayer.loadVideoById(videoId);
+    _startSync(); // restart sync for the new video
+    return;
+  }
   _ytPlayer = new YT.Player('yt-iframe', {
     videoId,
     width: '100%', height: '100%',
     playerVars: { autoplay:1, playsinline:1, modestbranding:1, rel:0 },
     events: {
+      onReady: () => _startSync(),           // start as soon as player is ready
       onStateChange: e => {
         if (e.data === YT.PlayerState.PLAYING) _startSync();
-        else _stopSync();
+        // Don't stop sync on pause — keeps subtitle position visible
       }
     }
   });
 }
 
 function _startSync() {
-  _stopSync();
-  _ytSyncTimer = setInterval(_syncSubs, 350);
+  if (_ytSyncTimer) return; // already running
+  _ytSyncTimer = setInterval(_syncSubs, 400);
 }
 function _stopSync() {
   clearInterval(_ytSyncTimer); _ytSyncTimer = null;
@@ -1153,40 +1158,58 @@ function _stopSync() {
 
 function _syncSubs() {
   if (!_ytPlayer?.getCurrentTime || !_currentScene?.dialogue) return;
-  const t = _ytPlayer.getCurrentTime();
-  let activeIdx = 0;
-  _currentScene.dialogue.forEach((l, i) => { if (t >= l.t) activeIdx = i; });
-  if (_lastSubIdx !== activeIdx) {
-    _lastSubIdx = activeIdx;
-    _renderSubtitles(activeIdx);
-  }
+  try {
+    const t = _ytPlayer.getCurrentTime();
+    if (typeof t !== 'number') return;
+    let activeIdx = 0;
+    _currentScene.dialogue.forEach((l, i) => { if (t >= l.t) activeIdx = i; });
+    if (_lastSubIdx !== activeIdx) {
+      _lastSubIdx = activeIdx;
+      _renderSubtitles(activeIdx);
+    }
+  } catch(_) {}
 }
 
-// Build the 3-line karaoke view: previous (dim) / current (bright) / next (dim)
-function _renderSubtitles(activeIdx) {
+// Build the 3-line karaoke view: prev (dim) / current (bright) / next (dim)
+// + prev/next arrows for manual control when autoplay is blocked
+function _renderSubtitles(idx) {
   const subs = $('sp-subs');
   if (!subs || !_currentScene?.dialogue) return;
   const dlg = _currentScene.dialogue;
+  const n   = dlg.length;
+  _lastSubIdx = idx;
 
-  const lines = [
-    dlg[activeIdx - 1] ? _subLineHTML(dlg[activeIdx - 1], 'is-prev', false) : '',
-    dlg[activeIdx]     ? _subLineHTML(dlg[activeIdx],     'is-cur',  true)  : '',
-    dlg[activeIdx + 1] ? _subLineHTML(dlg[activeIdx + 1], 'is-next', false) : '',
-    '<div class="sp-sub-hint">Toca una palabra para ver su traducción al español</div>',
-  ];
-  subs.innerHTML = lines.join('');
+  subs.innerHTML = `
+    ${dlg[idx - 1] ? _subLineHTML(dlg[idx - 1], 'is-prev') : '<div class="sp-sub-line is-prev"></div>'}
+    ${dlg[idx]     ? _subLineHTML(dlg[idx],     'is-cur', true) : ''}
+    ${dlg[idx + 1] ? _subLineHTML(dlg[idx + 1], 'is-next') : '<div class="sp-sub-line is-next"></div>'}
+    <div class="sp-sub-nav">
+      <button class="sp-nav-line" id="sp-line-prev" ${idx === 0 ? 'disabled' : ''}>‹</button>
+      <span class="sp-line-pos">${idx + 1} / ${n}</span>
+      <button class="sp-nav-line" id="sp-line-next" ${idx >= n - 1 ? 'disabled' : ''}>›</button>
+    </div>
+    <div class="sp-sub-hint">Toca una palabra · toca ‹ › para avanzar</div>`;
 
-  // Wire click-to-translate only on current line words
+  // Click words → translate
   subs.querySelectorAll('.is-cur .sw').forEach(span =>
-    span.addEventListener('click', e => {
-      e.stopPropagation();
-      _showWordTooltip(span.dataset.w, span);
-    })
+    span.addEventListener('click', e => { e.stopPropagation(); _showWordTooltip(span.dataset.w, span); })
   );
+  // Manual line navigation
+  $('sp-line-prev')?.addEventListener('click', () => {
+    if (idx > 0) { _lastSubIdx = -1; _renderSubtitles(idx - 1); _seekToLine(idx - 1); }
+  });
+  $('sp-line-next')?.addEventListener('click', () => {
+    if (idx < n - 1) { _lastSubIdx = -1; _renderSubtitles(idx + 1); _seekToLine(idx + 1); }
+  });
 }
 
-function _subLineHTML(line, cls, clickable) {
-  const parts = line.text.match(/[\w']+|[^\w']+/g) || [];
+function _seekToLine(idx) {
+  const t = _currentScene?.dialogue?.[idx]?.t;
+  if (typeof t === 'number' && _ytPlayer?.seekTo) _ytPlayer.seekTo(t, true);
+}
+
+function _subLineHTML(line, cls, clickable = false) {
+  const parts  = line.text.match(/[\w']+|[^\w']+/g) || [];
   const enHTML = parts.map(p =>
     clickable && /\w/.test(p)
       ? `<span class="sw" data-w="${escHtml(p)}">${escHtml(p)}</span>`
@@ -1207,19 +1230,24 @@ async function _showWordTooltip(word, el) {
   if (!tip) return;
 
   const r = el.getBoundingClientRect();
-  tip.style.left = Math.max(8, Math.min(r.left + r.width / 2 - 70, window.innerWidth - 160)) + 'px';
-  tip.style.top  = Math.max(8, r.top - 52) + 'px';
+  const tipLeft = Math.max(8, Math.min(r.left + r.width / 2 - 75, window.innerWidth - 170));
+  const tipTop  = r.top > 80 ? r.top - 54 : r.bottom + 8;
+  tip.style.left = tipLeft + 'px';
+  tip.style.top  = tipTop  + 'px';
   $('wt-word').textContent  = clean;
   $('wt-trans').textContent = '...';
   tip.classList.remove('hidden');
   clearTimeout(_tooltipTimer);
-  _tooltipTimer = setTimeout(() => tip.classList.add('hidden'), 4000);
+  _tooltipTimer = setTimeout(() => tip.classList.add('hidden'), 5000);
 
   if (_wordCache[clean]) { $('wt-trans').textContent = _wordCache[clean]; return; }
   try {
+    const ctrl = new AbortController();
+    setTimeout(() => ctrl.abort(), 8000);
     const res = await fetch('/api/translate', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ text: clean, direction: 'to_spanish' }),
+      signal: ctrl.signal,
     });
     const d = await res.json();
     if (d.success) { _wordCache[clean] = d.translation; $('wt-trans').textContent = d.translation; }
@@ -1244,6 +1272,7 @@ function openEpisodePlayer(ep, sceneIdx) {
   const prevBtn = $('sp-prev-ep'); const nextBtn = $('sp-next-ep');
   if (prevBtn) { prevBtn.style.opacity = prevEp ? '1' : '.25'; prevBtn.disabled = !prevEp; }
   if (nextBtn) { nextBtn.style.opacity = nextEp ? '1' : '.25'; nextBtn.disabled = !nextEp; }
+  _startSync(); // start polling even before video loads
   if (_ytReady) _createYTPlayer(ep.youtubeId);
   else _pendingYTId = ep.youtubeId;
 }
@@ -1287,6 +1316,7 @@ function openScenePlayer(scene) {
   _renderSubtitles(0);
   $('scene-player').classList.remove('hidden');
   document.body.style.overflow = 'hidden';
+  _startSync(); // start polling even before video loads
   if (_ytReady) _createYTPlayer(scene.youtubeId);
   else _pendingYTId = scene.youtubeId;
 }

@@ -1232,9 +1232,25 @@ svg { flex-shrink: 0; }
 }
 .sp-sub-line.is-cur .sp-sub-es { color: rgba(255,255,255,.55); }
 
+.sp-sub-nav {
+  display: flex; align-items: center; justify-content: center; gap: 16px;
+  margin-top: 8px;
+}
+.sp-nav-line {
+  background: rgba(255,255,255,.08); color: #fff;
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: 8px; padding: 6px 18px; font-size: 1.1rem;
+  cursor: pointer; transition: background .15s;
+}
+.sp-nav-line:hover { background: rgba(249,115,22,.25); border-color: #F97316; }
+.sp-nav-line:disabled { opacity: .2; cursor: default; }
+.sp-line-pos {
+  font-size: .72rem; color: rgba(255,255,255,.35);
+  min-width: 48px; text-align: center;
+}
 .sp-sub-hint {
   font-size: .58rem; color: rgba(255,255,255,.18);
-  letter-spacing: .04em; margin-top: 4px;
+  letter-spacing: .04em; margin-top: 4px; text-align: center;
 }
 
 /* Clickable word */
