@@ -13,10 +13,7 @@ let _deferredInstall = null;
 window.addEventListener('beforeinstallprompt', e => {
   e.preventDefault();
   _deferredInstall = e;
-  // Show install option in hamburger menu
-  const btn = document.getElementById('hdm-install-btn');
-  if (btn) btn.classList.remove('hidden');
-  // Show banner if user hasn't dismissed it
+  // Show auto-banner if user hasn't dismissed it
   if (!localStorage.getItem('alexai-install-dismissed')) {
     const banner = document.getElementById('install-banner');
     if (banner) banner.classList.remove('hidden');
@@ -27,7 +24,9 @@ window.addEventListener('appinstalled', () => {
   _deferredInstall = null;
   localStorage.setItem('alexai-install-dismissed', '1');
   document.getElementById('install-banner')?.classList.add('hidden');
-  document.getElementById('hdm-install-btn')?.classList.add('hidden');
+  // Update button text so user knows it's installed
+  const btn = document.getElementById('hdm-install-btn');
+  if (btn) btn.textContent = '✅ App instalada';
 });
 
 const _isIOS    = /iphone|ipad|ipod/i.test(navigator.userAgent);
@@ -1030,18 +1029,22 @@ async function shareApp() {
 }
 
 function triggerInstall() {
+  if (_isStandalone) {
+    toast('✅ Ya está instalada como app', 'success'); return;
+  }
   if (_deferredInstall) {
+    // Android Chrome: native install prompt
     _deferredInstall.prompt();
     _deferredInstall.userChoice.then(choice => {
-      if (choice.outcome === 'accepted') {
-        toast('🎉 ¡ThiagoEnglish instalado!', 'success');
-      }
+      if (choice.outcome === 'accepted') toast('🎉 ¡ThiagoEnglish instalado!', 'success');
       _deferredInstall = null;
     });
-  } else if (_isIOS && !_isStandalone) {
+  } else if (_isIOS) {
+    // iOS Safari: show manual instructions
     document.getElementById('ios-tip')?.classList.remove('hidden');
   } else {
-    toast('Abre la app desde Chrome o Safari para instalarla', '');
+    // Android but prompt not ready yet — show manual guide
+    toast('En Chrome: menú ⋮ → "Instalar app" o "Añadir a pantalla inicio"', '');
   }
 }
 
