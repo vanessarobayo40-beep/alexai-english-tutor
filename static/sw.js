@@ -1,5 +1,5 @@
-/* ThiagoEnglish Service Worker — v3 */
-const CACHE = 'thiagoenglish-v3';
+/* ThiagoEnglish Service Worker — v4 */
+const CACHE = 'thiagoenglish-v4';
 const ASSETS = [
   '/',
   '/static/css/style.css',

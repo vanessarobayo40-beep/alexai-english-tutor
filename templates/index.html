@@ -131,7 +131,6 @@
     <div class="hdm-div"></div>
     <div class="hdm-label">Aprendizaje</div>
     <button class="hdm-btn" data-hdm="topics">📚 Cambiar tema</button>
-    <button class="hdm-btn" data-hdm="series">📺 The Office — Aprende con series</button>
     <button class="hdm-btn" data-hdm="vocab">📖 Mi vocabulario (<span id="hdm-wc">0</span> palabras)</button>
     <button class="hdm-btn" data-hdm="family">🏆 Ranking familiar</button>
     <div class="hdm-div"></div>
@@ -244,31 +243,6 @@
               <p>Guarda palabras<br>para estudiarlas</p>
             </div>
           </div>
-        </div>
-
-        <!-- The Office — Series para aprender inglés -->
-        <div class="sb-section" id="series-section" style="display:none">
-          <!-- Header de la serie -->
-          <div class="series-hero">
-            <div class="sh-logo">THE<br><span>OFFICE</span></div>
-            <div class="sh-info">
-              <div class="sh-title">Temporada 1 · 2005</div>
-              <div class="sh-sub">6 episodios · Inglés americano real</div>
-              <div class="sh-badges">
-                <span class="sh-badge">A1–B1</span>
-                <span class="sh-badge">Humor</span>
-                <span class="sh-badge">Oficina</span>
-              </div>
-            </div>
-          </div>
-          <!-- Lista de episodios -->
-          <div class="series-ep-label">Episodios — Temporada 1</div>
-          <div id="episode-list" class="episode-list"></div>
-          <!-- Práctica rápida de frases -->
-          <details class="quick-scenes-details">
-            <summary>⚡ Frases icónicas — práctica rápida</summary>
-            <div id="office-scenes-list" class="office-scenes-list"></div>
-          </details>
         </div>
 
         <!-- Leaderboard familiar -->
@@ -394,10 +368,6 @@
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 10h16M4 14h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
       <small>Temas</small>
     </button>
-    <button class="mnav-btn" data-tab="series">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="2" y="3" width="20" height="14" rx="2" stroke="currentColor" stroke-width="2"/><path d="M8 21h8M12 17v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-      <small>Series</small>
-    </button>
     <button class="mnav-btn" data-tab="vocab">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
       <small>Palabras</small>
@@ -408,47 +378,6 @@
 
 <!-- Overlay -->
 <div id="overlay" class="overlay"></div>
-
-<!-- ====== SCENE PLAYER (The Office) ====== -->
-<div id="scene-player" class="scene-player hidden">
-
-  <!-- Top bar -->
-  <div class="sp-topbar">
-    <button id="sp-close" class="sp-close-btn">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
-    </button>
-    <div class="sp-meta">
-      <span id="sp-scene-title" class="sp-title-txt"></span>
-      <span id="sp-scene-ep" class="sp-ep-txt"></span>
-    </div>
-    <div class="sp-ep-nav">
-      <button id="sp-prev-ep" class="sp-nav-btn" title="Episodio anterior">‹</button>
-      <button id="sp-next-ep" class="sp-nav-btn" title="Siguiente episodio">›</button>
-    </div>
-  </div>
-
-  <!-- Video -->
-  <div class="sp-video-wrap">
-    <div id="yt-iframe"></div>
-  </div>
-
-  <!-- Scene selector tabs -->
-  <div class="sp-scenes-bar" id="sp-scenes-bar"></div>
-
-  <!-- Karaoke subtitles — fills the rest of the screen -->
-  <div class="sp-subs" id="sp-subs"></div>
-
-</div>
-
-<!-- Word translation tooltip -->
-<div id="word-tooltip" class="word-tooltip hidden">
-  <span class="wt-word" id="wt-word"></span>
-  <span class="wt-sep">→</span>
-  <span class="wt-trans" id="wt-trans">...</span>
-</div>
-
-<!-- YouTube IFrame API -->
-<script src="https://www.youtube.com/iframe_api"></script>
 
 <!-- Banner instalación PWA (aparece automáticamente en Android Chrome) -->
 <div id="install-banner" class="install-banner hidden">
