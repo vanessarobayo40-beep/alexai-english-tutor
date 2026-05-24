@@ -54,56 +54,85 @@ document.addEventListener('visibilitychange', () => {
 //  THE OFFICE — escenas para practicar
 // ════════════════════════════════════════
 const OFFICE_SCENES = [
-  { id:1, char:'Michael Scott', ep:'T2', emoji:'👔',
+  { id:1,
+    title:'Bears. Beets. Battlestar Galactica.',
+    char:'Jim imita a Dwight', ep:'T3·E1', emoji:'😏',
+    youtubeId:'WaaANll8h18',
+    lvl:'A2', tag:'humor',
+    quote:'Bears. Beets. Battlestar Galactica.',
+    es:'Osos. Remolachas. Battlestar Galactica.',
+    tip:'"Beet" = remolacha. Jim se disfraza de Dwight para molestarlo.',
+    dialogue:[
+      { t:5,  speaker:'Jim',    emoji:'😏', text:'Bears. Beets. Battlestar Galactica.',            es:'Osos. Remolachas. Battlestar Galactica.' },
+      { t:12, speaker:'Dwight', emoji:'🌱', text:'Identity theft is not a joke, Jim!',              es:'¡El robo de identidad no es un chiste, Jim!' },
+      { t:16, speaker:'Dwight', emoji:'🌱', text:'Millions of families suffer every year!',         es:'¡Millones de familias sufren cada año!' },
+      { t:22, speaker:'Jim',    emoji:'😏', text:'Michael!',                                        es:'¡Michael!' },
+      { t:24, speaker:'Dwight', emoji:'🌱', text:'Michael!',                                        es:'¡Michael!' },
+    ]},
+  { id:2,
+    title:'Question: What Kind of Bear is Best?',
+    char:'Jim vs Dwight', ep:'T3·E1', emoji:'😏',
+    youtubeId:'l38D5TTCQIA',
+    lvl:'A2', tag:'humor',
+    quote:"Question: what kind of bear is best?",
+    es:'Pregunta: ¿cuál es el mejor tipo de oso?',
+    tip:'"False." como respuesta directa a algo obvio — muy americano.',
+    dialogue:[
+      { t:2,  speaker:'Jim',    emoji:'😏', text:'Question: what kind of bear is best?',            es:'Pregunta: ¿cuál es el mejor tipo de oso?' },
+      { t:6,  speaker:'Dwight', emoji:'🌱', text:"That's a ridiculous question.",                   es:'Esa es una pregunta ridícula.' },
+      { t:9,  speaker:'Jim',    emoji:'😏', text:'False. Black bear.',                               es:'Falso. Oso negro.' },
+      { t:13, speaker:'Dwight', emoji:'🌱', text:"Well, that's debatable. There are basically two schools of thought.", es:'Bueno, eso es debatible. Básicamente hay dos escuelas de pensamiento.' },
+    ]},
+  { id:3,
+    title:"Would I Rather Be Feared or Loved?",
+    char:'Michael Scott', ep:'T2·E6', emoji:'👔',
+    youtubeId:'IBJJrZ5LAVQ',
+    lvl:'B1', tag:'reflexión',
+    quote:"Would I rather be feared or loved? Easy. Both.",
+    es:'¿Preferiría ser temido o amado? Fácil. Ambos.',
+    tip:'"Rather" = preferir entre opciones. Estructura muy útil en inglés.',
+    dialogue:[
+      { t:4,  speaker:'Michael', emoji:'👔', text:'Would I rather be feared or loved?',             es:'¿Preferiría ser temido o amado?' },
+      { t:9,  speaker:'Michael', emoji:'👔', text:'Easy. Both.',                                     es:'Fácil. Ambos.' },
+      { t:12, speaker:'Michael', emoji:'👔', text:'I want people to be afraid of how much they love me.', es:'Quiero que la gente tenga miedo de cuánto me ama.' },
+    ]},
+  { id:4,
+    title:"Kevin's Simple Words",
+    char:'Kevin Malone', ep:'T7·E4', emoji:'🍕',
+    youtubeId:'WN-K0mhy3Ao',
+    lvl:'A1', tag:'vocabulario',
+    quote:'Why waste time say lot word when few word do trick?',
+    es:'¿Para qué desperdiciar palabras cuando pocas palabras sirven?',
+    tip:'Kevin habla con frases muy cortas. Perfecto para nivel A1.',
+    dialogue:[
+      { t:3,  speaker:'Kevin', emoji:'🍕', text:'Why waste time say lot word when few word do trick?', es:'¿Para qué desperdiciar palabras cuando pocas palabras sirven?' },
+      { t:10, speaker:'Kevin', emoji:'🍕', text:'Me want food.',                                     es:'Yo querer comida.' },
+      { t:14, speaker:'Kevin', emoji:'🍕', text:'See? Easy.',                                        es:'¿Ves? Fácil.' },
+    ]},
+  { id:5,
+    title:"That's What She Said",
+    char:'Michael Scott', ep:'T2·E2', emoji:'👔',
+    youtubeId:'jaXoWVZN2lc',
+    lvl:'A1', tag:'humor',
     quote:"That's what she said.",
     es:'Eso es lo que ella dijo.',
-    tip:'"That\'s what she said" es una frase cómica clásica de humor americano.',
-    lvl:'A1', tag:'humor' },
-  { id:2, char:'Dwight Schrute', ep:'T3', emoji:'🌱',
-    quote:"Identity theft is not a joke, Jim! Millions of families suffer every year!",
-    es:'¡El robo de identidad no es un chiste, Jim! ¡Millones de familias sufren cada año!',
-    tip:'"Theft" = robo. "Suffer" = sufrir. Dwight siempre exagera todo.',
-    lvl:'B1', tag:'drama' },
-  { id:3, char:'Michael Scott', ep:'T1', emoji:'👔',
-    quote:"I'm not superstitious, but I am a little stitious.",
-    es:'No soy supersticioso, pero soy un poco "sticioso".',
-    tip:'Michael inventa palabras. "Superstitious" = supersticioso.',
-    lvl:'A2', tag:'humor' },
-  { id:4, char:'Kevin Malone', ep:'T6', emoji:'🍕',
-    quote:"I have a lot of questions. Number one: how dare you.",
-    es:'Tengo muchas preguntas. Número uno: ¿cómo te atreves?',
-    tip:'"How dare you!" = ¿Cómo te atreves? Muy expresivo y dramático.',
-    lvl:'A2', tag:'expresiones' },
-  { id:5, char:'Jim Halpert', ep:'T4', emoji:'😏',
-    quote:"How the turntables...",
-    es:'Cómo cambian las cosas... (frase famosamente incompleta)',
-    tip:'Versión incorrecta de "how the tables have turned" (cómo cambian las tornas).',
-    lvl:'B1', tag:'humor' },
-  { id:6, char:'Pam Beesly', ep:'T3', emoji:'🎨',
-    quote:"I just want to be friends. Plus a little extra. Also, I love him.",
-    es:'Solo quiero ser amigos. Más un poco extra. Además, lo amo.',
-    tip:'Usa "just", "plus", "also" para conectar ideas — vocabulario muy útil.',
-    lvl:'A2', tag:'sentimientos' },
-  { id:7, char:'Dwight Schrute', ep:'T2', emoji:'🌱',
-    quote:"Bears. Beets. Battlestar Galactica.",
-    es:'Osos. Remolachas. Battlestar Galactica.',
-    tip:'"Bear" = oso. "Beet" = remolacha. Jim imita a Dwight exactamente.',
-    lvl:'A1', tag:'vocabulario' },
-  { id:8, char:'Michael Scott', ep:'T7', emoji:'👔',
-    quote:"I knew exactly what to do. But in a much more real sense, I had no idea what to do.",
-    es:'Sabía exactamente qué hacer. Pero en un sentido más real, no tenía ni idea.',
-    tip:'"I had no idea" = no tenía idea. Contradicción cómica perfecta.',
-    lvl:'B1', tag:'humor' },
-  { id:9, char:'Kelly Kapoor', ep:'T5', emoji:'💅',
-    quote:"I talk a lot, so I've learned to tune myself out.",
-    es:'Hablo mucho, así que aprendí a ignorarme a mí misma.',
-    tip:'"Tune out" = ignorar, dejar de prestar atención. Muy casual.',
-    lvl:'B1', tag:'expresiones' },
-  { id:10, char:'Andy Bernard', ep:'T8', emoji:'🎵',
-    quote:"I wish there was a way to know you're in the good old days before you've actually left them.",
-    es:'Ojalá hubiera una forma de saber que estás en los buenos tiempos antes de haberlos dejado.',
-    tip:'Una de las frases más emotivas de la serie. "Good old days" = los buenos tiempos.',
-    lvl:'B2', tag:'reflexión' },
+    tip:'El chiste más icónico de Michael. Frase de doble sentido americano.',
+    dialogue:[
+      { t:0,  speaker:'Michael', emoji:'👔', text:"That's what she said.",                          es:'Eso es lo que ella dijo.' },
+    ]},
+  { id:6,
+    title:"The Best Boss in the World",
+    char:'Michael Scott', ep:'T1·E1', emoji:'👔',
+    youtubeId:'IBJJrZ5LAVQ',
+    lvl:'A2', tag:'humor',
+    quote:"I am the best boss in the world.",
+    es:'Soy el mejor jefe del mundo.',
+    tip:'"The best" = el mejor. Superlativo. Michael siempre exagera.',
+    dialogue:[
+      { t:0,  speaker:'Michael', emoji:'👔', text:'I am the best boss in the world.',               es:'Soy el mejor jefe del mundo.' },
+      { t:5,  speaker:'Michael', emoji:'👔', text:"I'm like a dad. A fun dad.",                     es:'Soy como un papá. Un papá divertido.' },
+      { t:10, speaker:'Michael', emoji:'👔', text:'Not like a real dad. I mean, I love my employees.', es:'No como un papá real. Quiero decir, amo a mis empleados.' },
+    ]},
 ];
 
 // ════════════════════════════════════════
@@ -839,7 +868,7 @@ function escHtml(s) {
 }
 
 // ════════════════════════════════════════
-//  THE OFFICE — render + practice
+//  THE OFFICE — scene cards (sidebar)
 // ════════════════════════════════════════
 function renderOfficeScenes() {
   const container = $('office-scenes-list');
@@ -853,44 +882,137 @@ function renderOfficeScenes() {
         <span class="oc-char">${sc.emoji} ${escHtml(sc.char)}</span>
         <span class="oc-badge" style="background:${bg};color:${fg}">${sc.lvl}</span>
       </div>
+      <div class="oc-ep">${escHtml(sc.ep)}</div>
       <div class="oc-quote">"${escHtml(sc.quote)}"</div>
       <div class="oc-es">${escHtml(sc.es)}</div>
       <div class="oc-tip">💡 ${escHtml(sc.tip)}</div>
-      <button class="oc-practice" data-id="${sc.id}">▶ Practicar esta frase</button>
+      <button class="oc-watch" data-id="${sc.id}">▶ Ver escena y practicar</button>
     </div>`;
   }).join('');
-  container.querySelectorAll('.oc-practice').forEach(btn => {
+  container.querySelectorAll('.oc-watch').forEach(btn => {
     btn.addEventListener('click', () => {
       const scene = OFFICE_SCENES.find(s => s.id === Number(btn.dataset.id));
-      if (scene) practiceOfficeScene(scene);
+      if (scene) openScenePlayer(scene);
     });
   });
 }
 
-function practiceOfficeScene(scene) {
-  // Switch to chat view
+// ════════════════════════════════════════
+//  SCENE PLAYER — YouTube + subtítulos
+// ════════════════════════════════════════
+let _ytPlayer      = null;
+let _ytReady       = false;
+let _ytSyncTimer   = null;
+let _currentScene  = null;
+let _pendingYTId   = null;
+
+// Called by YouTube IFrame API when ready
+window.onYouTubeIframeAPIReady = function() {
+  _ytReady = true;
+  if (_pendingYTId) { _createYTPlayer(_pendingYTId); _pendingYTId = null; }
+};
+
+function _createYTPlayer(videoId) {
+  if (_ytPlayer) { _ytPlayer.loadVideoById(videoId); return; }
+  _ytPlayer = new YT.Player('yt-iframe', {
+    videoId,
+    width: '100%', height: '100%',
+    playerVars: { autoplay:1, playsinline:1, modestbranding:1, rel:0 },
+    events: {
+      onStateChange: e => {
+        if (e.data === YT.PlayerState.PLAYING) _startSync();
+        else _stopSync();
+      }
+    }
+  });
+}
+
+function _startSync() {
+  _stopSync();
+  _ytSyncTimer = setInterval(_syncSubs, 350);
+}
+function _stopSync() {
+  clearInterval(_ytSyncTimer); _ytSyncTimer = null;
+}
+
+function _syncSubs() {
+  if (!_ytPlayer?.getCurrentTime || !_currentScene?.dialogue) return;
+  const t = _ytPlayer.getCurrentTime();
+  let activeIdx = 0;
+  _currentScene.dialogue.forEach((l, i) => { if (t >= l.t) activeIdx = i; });
+  document.querySelectorAll('.spc-card').forEach((card, i) => {
+    const isActive = i === activeIdx;
+    if (isActive && !card.classList.contains('active')) {
+      card.classList.add('active');
+      card.scrollIntoView({ behavior:'smooth', block:'nearest' });
+    } else if (!isActive) {
+      card.classList.remove('active');
+    }
+  });
+}
+
+function openScenePlayer(scene) {
+  _currentScene = scene;
+  closeSidebar();
+  $('sp-scene-title').textContent = scene.title;
+  $('sp-scene-ep').textContent    = scene.ep;
+  _renderSceneDialogue(scene);
+  $('scene-player').classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+
+  if (_ytReady) _createYTPlayer(scene.youtubeId);
+  else _pendingYTId = scene.youtubeId;
+}
+
+function closeScenePlayer() {
+  _stopSync();
+  _ytPlayer?.pauseVideo?.();
+  $('scene-player').classList.add('hidden');
+  document.body.style.overflow = '';
+}
+
+function _renderSceneDialogue(scene) {
+  const list = $('sp-dialogue-list');
+  list.innerHTML = scene.dialogue.map((line, i) => `
+    <div class="spc-card${i === 0 ? ' active' : ''}" data-t="${line.t}" data-idx="${i}">
+      <div class="spc-speaker">${line.emoji} <strong>${escHtml(line.speaker)}</strong></div>
+      <div class="spc-text">"${escHtml(line.text)}"</div>
+      <div class="spc-es">🇪🇸 ${escHtml(line.es)}</div>
+      <button class="spc-btn" data-idx="${i}">🎤 Practicar esta línea</button>
+    </div>`).join('');
+
+  list.querySelectorAll('.spc-card').forEach(card => {
+    card.addEventListener('click', e => {
+      if (e.target.classList.contains('spc-btn')) return;
+      if (_ytPlayer?.seekTo) _ytPlayer.seekTo(Number(card.dataset.t), true);
+    });
+  });
+  list.querySelectorAll('.spc-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const line = scene.dialogue[Number(btn.dataset.idx)];
+      closeScenePlayer();
+      _practiceDialogueLine(line, scene);
+    });
+  });
+}
+
+function _practiceDialogueLine(line, scene) {
   document.querySelectorAll('.mnav-btn').forEach(b =>
     b.classList.toggle('active', b.dataset.tab === 'chat'));
-  closeSidebar();
-  S.topic = 'office';
-  S.history = [];
+  S.topic = 'office'; S.history = [];
   closeAllPanels();
   document.querySelectorAll('.topic-btn').forEach(b => b.classList.remove('active'));
   DOM.messages.innerHTML = '';
-  // Inject a starter bubble with context from the scene
   const starter = {
-    message: `¡Vamos a practicar con The Office! 🎬 Esta es una frase de **${scene.char}**:\n\n"${scene.quote}"\n\n🇪🇸 "${scene.es}"\n\n💡 ${scene.tip}\n\n¿Puedes decirme esta frase o algo parecido en inglés?`,
-    correction: { has_error: false, original: '', corrected: '', tip: '' },
-    vocabulary: { word: scene.quote.split(' ')[0].replace(/[^a-zA-Z]/g, '').toLowerCase(), definition: '', spanish: '', example: scene.quote },
-    emotion: 'excited'
+    message: `¡Vamos a practicar esta línea de The Office! 🎬\n\n*${escHtml(scene.title)}* · ${escHtml(scene.ep)}\n\n${line.emoji} **${line.speaker}:** "${line.text}"\n🇪🇸 "${line.es}"\n\n¿Puedes repetir esta frase en inglés? ¡Inténtalo!`,
+    correction:{ has_error:false, original:'', corrected:'', tip:'' },
+    vocabulary:{ word:'', definition:'', spanish:'', example:line.text },
+    emotion:'excited'
   };
-  S.history.push({ role: 'assistant', content: starter.message });
+  S.history.push({ role:'assistant', content: starter.message });
   S.lastAIText = starter.message;
   addAlexBubble(starter);
-  if (!S.visitedTopics.includes('office')) {
-    S.visitedTopics.push('office');
-    saveLocal();
-  }
+  if (!S.visitedTopics.includes('office')) { S.visitedTopics.push('office'); saveLocal(); }
 }
 
 // ════════════════════════════════════════
@@ -1126,6 +1248,9 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('popstate', () => {
     history.pushState(null, '', location.href);
   });
+
+  // ── Scene player close ──────────────────────────────────
+  $('sp-close')?.addEventListener('click', closeScenePlayer);
 
   // ── Install banner buttons ─────────────────────────────
   $('install-yes')?.addEventListener('click', () => {
