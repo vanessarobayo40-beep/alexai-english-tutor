@@ -1042,6 +1042,12 @@ document.addEventListener('DOMContentLoaded', () => {
         openSidebar();
         return;
       }
+      if (action === 'series') {
+        closeHdMenu();
+        showSidebarSections('series');
+        openSidebar();
+        return;
+      }
       if (action === 'vocab') {
         closeHdMenu();
         showSidebarSections('vocab');
