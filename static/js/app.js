@@ -933,8 +933,8 @@ async function changeTopic(topic) {
 // ════════════════════════════════════════
 function openSidebar() {
   DOM.sidebar.classList.add('open');
-  // Only add overlay on desktop (sidebar is full-width on mobile, overlay is unnecessary)
-  if (window.innerWidth > 700) DOM.overlay.classList.add('active');
+  // No overlay: desktop sidebar is part of flex layout (overlay would cover it),
+  // mobile sidebar is full-width (nothing behind it needs dimming)
 }
 function closeSidebar() {
   DOM.sidebar.classList.remove('open');
