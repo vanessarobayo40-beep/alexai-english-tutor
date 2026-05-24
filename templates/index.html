@@ -46,22 +46,15 @@
 
       <div class="ob-hero">
         <div class="ob-logo-mark">
-          <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
-            <rect width="52" height="52" rx="16" fill="url(#og)"/>
-            <!-- T de Thiago -->
-            <rect x="8" y="10" width="36" height="7" rx="3.5" fill="rgba(255,255,255,0.95)"/>
-            <rect x="22.5" y="10" width="7" height="23" rx="2.5" fill="rgba(255,255,255,0.95)"/>
-            <!-- Burbuja de conversación (English) -->
-            <rect x="30" y="35" width="17" height="11" rx="4" fill="rgba(255,255,255,0.28)"/>
-            <path d="M34 46 L31 50 L39 46Z" fill="rgba(255,255,255,0.28)"/>
-            <circle cx="35" cy="40.5" r="1.3" fill="white"/>
-            <circle cx="38.5" cy="40.5" r="1.3" fill="white"/>
-            <circle cx="42" cy="40.5" r="1.3" fill="white"/>
+          <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+            <rect width="56" height="56" rx="18" fill="url(#og)"/>
+            <rect x="8" y="13" width="40" height="9" rx="4.5" fill="white"/>
+            <rect x="23.5" y="13" width="9" height="31" rx="4.5" fill="white"/>
             <defs>
-              <linearGradient id="og" x1="0" y1="0" x2="52" y2="52" gradientUnits="userSpaceOnUse">
-                <stop stop-color="#6D28D9"/>
-                <stop offset="0.5" stop-color="#7C3AED"/>
-                <stop offset="1" stop-color="#0EA5E9"/>
+              <linearGradient id="og" x1="0" y1="0" x2="56" y2="56" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#4C1D95"/>
+                <stop offset="0.42" stop-color="#7C3AED"/>
+                <stop offset="1" stop-color="#06B6D4"/>
               </linearGradient>
             </defs>
           </svg>
@@ -254,6 +247,22 @@
           </div>
         </div>
 
+        <!-- The Office — Series para aprender inglés -->
+        <div class="sb-section" id="series-section" style="display:none">
+          <div class="sb-label">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><rect x="2" y="3" width="20" height="14" rx="2" stroke="currentColor" stroke-width="2"/><path d="M8 21h8M12 17v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            📺 The Office — Aprende con series
+          </div>
+          <div class="office-series-header">
+            <div class="osh-logo">THE<br>OFFICE</div>
+            <div class="osh-info">
+              <div class="osh-title">Aprende inglés real</div>
+              <div class="osh-sub">Frases auténticas · 9 temporadas · Humor americano</div>
+            </div>
+          </div>
+          <div id="office-scenes-list" class="office-scenes-list"></div>
+        </div>
+
         <!-- Leaderboard familiar -->
         <div class="sb-section" id="leaderboard-section">
           <div class="sb-label">
@@ -376,6 +385,10 @@
     <button class="mnav-btn" data-tab="topics">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 10h16M4 14h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
       <small>Temas</small>
+    </button>
+    <button class="mnav-btn" data-tab="series">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="2" y="3" width="20" height="14" rx="2" stroke="currentColor" stroke-width="2"/><path d="M8 21h8M12 17v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <small>Series</small>
     </button>
     <button class="mnav-btn" data-tab="vocab">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>

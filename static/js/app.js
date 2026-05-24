@@ -36,6 +36,77 @@ const _isStandalone = window.matchMedia('(display-mode: standalone)').matches
 
 
 // ════════════════════════════════════════
+//  WAKE LOCK — pantalla no se duerme
+// ════════════════════════════════════════
+let _wakeLock = null;
+async function requestWakeLock() {
+  if (!('wakeLock' in navigator)) return;
+  try {
+    _wakeLock = await navigator.wakeLock.request('screen');
+    _wakeLock.addEventListener('release', () => { _wakeLock = null; });
+  } catch(_) {}
+}
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible' && _wakeLock === null) requestWakeLock();
+});
+
+// ════════════════════════════════════════
+//  THE OFFICE — escenas para practicar
+// ════════════════════════════════════════
+const OFFICE_SCENES = [
+  { id:1, char:'Michael Scott', ep:'T2', emoji:'👔',
+    quote:"That's what she said.",
+    es:'Eso es lo que ella dijo.',
+    tip:'"That\'s what she said" es una frase cómica clásica de humor americano.',
+    lvl:'A1', tag:'humor' },
+  { id:2, char:'Dwight Schrute', ep:'T3', emoji:'🌱',
+    quote:"Identity theft is not a joke, Jim! Millions of families suffer every year!",
+    es:'¡El robo de identidad no es un chiste, Jim! ¡Millones de familias sufren cada año!',
+    tip:'"Theft" = robo. "Suffer" = sufrir. Dwight siempre exagera todo.',
+    lvl:'B1', tag:'drama' },
+  { id:3, char:'Michael Scott', ep:'T1', emoji:'👔',
+    quote:"I'm not superstitious, but I am a little stitious.",
+    es:'No soy supersticioso, pero soy un poco "sticioso".',
+    tip:'Michael inventa palabras. "Superstitious" = supersticioso.',
+    lvl:'A2', tag:'humor' },
+  { id:4, char:'Kevin Malone', ep:'T6', emoji:'🍕',
+    quote:"I have a lot of questions. Number one: how dare you.",
+    es:'Tengo muchas preguntas. Número uno: ¿cómo te atreves?',
+    tip:'"How dare you!" = ¿Cómo te atreves? Muy expresivo y dramático.',
+    lvl:'A2', tag:'expresiones' },
+  { id:5, char:'Jim Halpert', ep:'T4', emoji:'😏',
+    quote:"How the turntables...",
+    es:'Cómo cambian las cosas... (frase famosamente incompleta)',
+    tip:'Versión incorrecta de "how the tables have turned" (cómo cambian las tornas).',
+    lvl:'B1', tag:'humor' },
+  { id:6, char:'Pam Beesly', ep:'T3', emoji:'🎨',
+    quote:"I just want to be friends. Plus a little extra. Also, I love him.",
+    es:'Solo quiero ser amigos. Más un poco extra. Además, lo amo.',
+    tip:'Usa "just", "plus", "also" para conectar ideas — vocabulario muy útil.',
+    lvl:'A2', tag:'sentimientos' },
+  { id:7, char:'Dwight Schrute', ep:'T2', emoji:'🌱',
+    quote:"Bears. Beets. Battlestar Galactica.",
+    es:'Osos. Remolachas. Battlestar Galactica.',
+    tip:'"Bear" = oso. "Beet" = remolacha. Jim imita a Dwight exactamente.',
+    lvl:'A1', tag:'vocabulario' },
+  { id:8, char:'Michael Scott', ep:'T7', emoji:'👔',
+    quote:"I knew exactly what to do. But in a much more real sense, I had no idea what to do.",
+    es:'Sabía exactamente qué hacer. Pero en un sentido más real, no tenía ni idea.',
+    tip:'"I had no idea" = no tenía idea. Contradicción cómica perfecta.',
+    lvl:'B1', tag:'humor' },
+  { id:9, char:'Kelly Kapoor', ep:'T5', emoji:'💅',
+    quote:"I talk a lot, so I've learned to tune myself out.",
+    es:'Hablo mucho, así que aprendí a ignorarme a mí misma.',
+    tip:'"Tune out" = ignorar, dejar de prestar atención. Muy casual.',
+    lvl:'B1', tag:'expresiones' },
+  { id:10, char:'Andy Bernard', ep:'T8', emoji:'🎵',
+    quote:"I wish there was a way to know you're in the good old days before you've actually left them.",
+    es:'Ojalá hubiera una forma de saber que estás en los buenos tiempos antes de haberlos dejado.',
+    tip:'Una de las frases más emotivas de la serie. "Good old days" = los buenos tiempos.',
+    lvl:'B2', tag:'reflexión' },
+];
+
+// ════════════════════════════════════════
 //  STATE
 // ════════════════════════════════════════
 const S = {
@@ -678,14 +749,17 @@ function showSidebarSections(mode) {
   const topics    = $('topics-section');
   const vocab     = $('vocab-section');
   const lb        = $('leaderboard-section');
+  const series    = $('series-section');
   const show = el => el && (el.style.display = '');
   const hide = el => el && (el.style.display = 'none');
   if (mode === 'topics') {
-    show(plan); show(topics); hide(vocab); hide(lb);
+    show(plan); show(topics); hide(vocab); hide(lb); hide(series);
   } else if (mode === 'vocab') {
-    hide(plan); hide(topics); show(vocab); hide(lb);
+    hide(plan); hide(topics); show(vocab); hide(lb); hide(series);
+  } else if (mode === 'series') {
+    hide(plan); hide(topics); hide(vocab); hide(lb); show(series);
   } else {
-    show(plan); show(topics); show(vocab); show(lb);
+    show(plan); show(topics); show(vocab); show(lb); hide(series);
   }
 }
 
@@ -696,6 +770,9 @@ function setMobileTab(tab) {
     openSidebar();
   } else if (tab === 'vocab') {
     showSidebarSections('vocab');
+    openSidebar();
+  } else if (tab === 'series') {
+    showSidebarSections('series');
     openSidebar();
   } else {
     closeSidebar();
@@ -759,6 +836,61 @@ function escHtml(s) {
 }
 
 // ════════════════════════════════════════
+//  THE OFFICE — render + practice
+// ════════════════════════════════════════
+function renderOfficeScenes() {
+  const container = $('office-scenes-list');
+  if (!container) return;
+  const lvlColors = { A1:'#DCFCE7|#15803D', A2:'#FEF3C7|#B45309', B1:'#EDE9FE|#6D28D9', B2:'#DBEAFE|#1D4ED8' };
+  container.innerHTML = OFFICE_SCENES.map(sc => {
+    const [bg, fg] = (lvlColors[sc.lvl] || '#F3F4F6|#374151').split('|');
+    return `
+    <div class="office-card">
+      <div class="oc-head">
+        <span class="oc-char">${sc.emoji} ${escHtml(sc.char)}</span>
+        <span class="oc-badge" style="background:${bg};color:${fg}">${sc.lvl}</span>
+      </div>
+      <div class="oc-quote">"${escHtml(sc.quote)}"</div>
+      <div class="oc-es">${escHtml(sc.es)}</div>
+      <div class="oc-tip">💡 ${escHtml(sc.tip)}</div>
+      <button class="oc-practice" data-id="${sc.id}">▶ Practicar esta frase</button>
+    </div>`;
+  }).join('');
+  container.querySelectorAll('.oc-practice').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const scene = OFFICE_SCENES.find(s => s.id === Number(btn.dataset.id));
+      if (scene) practiceOfficeScene(scene);
+    });
+  });
+}
+
+function practiceOfficeScene(scene) {
+  // Switch to chat view
+  document.querySelectorAll('.mnav-btn').forEach(b =>
+    b.classList.toggle('active', b.dataset.tab === 'chat'));
+  closeSidebar();
+  S.topic = 'office';
+  S.history = [];
+  closeAllPanels();
+  document.querySelectorAll('.topic-btn').forEach(b => b.classList.remove('active'));
+  DOM.messages.innerHTML = '';
+  // Inject a starter bubble with context from the scene
+  const starter = {
+    message: `¡Vamos a practicar con The Office! 🎬 Esta es una frase de **${scene.char}**:\n\n"${scene.quote}"\n\n🇪🇸 "${scene.es}"\n\n💡 ${scene.tip}\n\n¿Puedes decirme esta frase o algo parecido en inglés?`,
+    correction: { has_error: false, original: '', corrected: '', tip: '' },
+    vocabulary: { word: scene.quote.split(' ')[0].replace(/[^a-zA-Z]/g, '').toLowerCase(), definition: '', spanish: '', example: scene.quote },
+    emotion: 'excited'
+  };
+  S.history.push({ role: 'assistant', content: starter.message });
+  S.lastAIText = starter.message;
+  addAlexBubble(starter);
+  if (!S.visitedTopics.includes('office')) {
+    S.visitedTopics.push('office');
+    saveLocal();
+  }
+}
+
+// ════════════════════════════════════════
 //  INIT APP
 // ════════════════════════════════════════
 async function initApp() {
@@ -767,10 +899,15 @@ async function initApp() {
   checkStreak();
   scheduleSave();
   renderVocabSidebar();
+  renderOfficeScenes();
   updateStatsUI();
   if (DOM.btnSpeakToggle && !S.voiceOn) {
     DOM.btnSpeakToggle.classList.add('active');
   }
+  // Wake Lock: prevent screen from sleeping during lessons
+  requestWakeLock();
+  // Keep-alive: ping server every 4 min to avoid sleep on free hosting
+  setInterval(() => { if (S.name) fetch('/api/leaderboard').catch(() => {}); }, 240000);
   await changeTopic('general');
   loadLeaderboard();
   // Refresh leaderboard every 30s

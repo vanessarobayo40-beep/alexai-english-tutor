@@ -96,7 +96,8 @@ TOPIC_STARTERS = {
     "work":       {"message": "Let's practice work English — very useful for your career! Tell me, what do you do for work? Or what job do you want to have?", "correction": {"has_error": False, "original": "", "corrected": "", "tip": ""}, "vocabulary": {"word": "career", "definition": "your professional work life and job history", "spanish": "carrera profesional", "example": "She has a great career in technology."}, "emotion": "thinking"},
     "social":     {"message": "Let's practice social English — making friends! Imagine we just met at a party. How do you usually say hello to new people?", "correction": {"has_error": False, "original": "", "corrected": "", "tip": ""}, "vocabulary": {"word": "introduce", "definition": "to tell someone your name when you meet them", "spanish": "presentar / presentarse", "example": "Let me introduce myself — my name is Thiago!"}, "emotion": "happy"},
     "health":     {"message": "Let's practice health English — very important to know! You are at the doctor's office today. How do you feel? What is the problem?", "correction": {"has_error": False, "original": "", "corrected": "", "tip": ""}, "vocabulary": {"word": "symptom", "definition": "a sign or feeling that shows you might be sick", "spanish": "síntoma", "example": "My main symptom is a headache."}, "emotion": "thinking"},
-    "home":       {"message": "Let's talk about home life! Daily routines are perfect for beginners. What time do you usually wake up in the morning?", "correction": {"has_error": False, "original": "", "corrected": "", "tip": ""}, "vocabulary": {"word": "routine", "definition": "things you do regularly, usually in the same order", "spanish": "rutina", "example": "My morning routine starts at 7am."}, "emotion": "happy"}
+    "home":       {"message": "Let's talk about home life! Daily routines are perfect for beginners. What time do you usually wake up in the morning?", "correction": {"has_error": False, "original": "", "corrected": "", "tip": ""}, "vocabulary": {"word": "routine", "definition": "things you do regularly, usually in the same order", "spanish": "rutina", "example": "My morning routine starts at 7am."}, "emotion": "happy"},
+    "office":     {"message": "Let's learn English with The Office! 🎬 This show is amazing for learning natural, funny American English. Do you know The Office? Who is your favorite character — Michael, Dwight, or Jim?", "correction": {"has_error": False, "original": "", "corrected": "", "tip": ""}, "vocabulary": {"word": "coworker", "definition": "a person you work with at the same job", "spanish": "compañero de trabajo", "example": "My coworker is really funny."}, "emotion": "excited"}
 }
 
 def clean_json(text):
@@ -217,7 +218,8 @@ def chat():
             'work': 'Work and professional situations.',
             'social': 'Social situations and meeting new people.',
             'health': 'Health and medical situations.',
-            'home': 'Home life and daily routines.'
+            'home': 'Home life and daily routines.',
+            'office': 'Learning English through The Office TV show scenes, quotes, and humor. Help the student practice phrases from the show in context. Reference characters like Michael Scott, Dwight Schrute, Jim Halpert, and Pam Beesly naturally.',
         }
         system = SYSTEM_PROMPT
         ctx = topic_labels.get(topic, '')

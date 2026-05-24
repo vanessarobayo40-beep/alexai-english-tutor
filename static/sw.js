@@ -1,5 +1,5 @@
-/* ThiagoEnglish Service Worker — minimal cache for PWA installability */
-const CACHE = 'thiagoenglish-v1';
+/* ThiagoEnglish Service Worker — v2 */
+const CACHE = 'thiagoenglish-v2';
 const ASSETS = [
   '/',
   '/static/css/style.css',
