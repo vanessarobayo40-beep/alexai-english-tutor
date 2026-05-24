@@ -1,5 +1,5 @@
-/* ThiagoEnglish Service Worker — v2 */
-const CACHE = 'thiagoenglish-v2';
+/* ThiagoEnglish Service Worker — v3 */
+const CACHE = 'thiagoenglish-v3';
 const ASSETS = [
   '/',
   '/static/css/style.css',
@@ -26,21 +26,38 @@ self.addEventListener('activate', e => {
 
 self.addEventListener('fetch', e => {
   const { request } = e;
-  // Never cache API calls — always fresh from network
+  // Never cache API calls
   if (request.url.includes('/api/')) return;
-  // Only cache GET
   if (request.method !== 'GET') return;
 
-  e.respondWith(
-    caches.match(request).then(cached => {
-      const network = fetch(request).then(res => {
-        if (res && res.status === 200 && res.type === 'basic') {
+  const url = new URL(request.url);
+  const isMainAsset = url.pathname === '/' ||
+    url.pathname.endsWith('/app.js') ||
+    url.pathname.endsWith('/style.css');
+
+  if (isMainAsset) {
+    // Network-first for main assets: always try to get fresh code
+    e.respondWith(
+      fetch(request).then(res => {
+        if (res && res.status === 200) {
           const copy = res.clone();
           caches.open(CACHE).then(c => c.put(request, copy));
         }
         return res;
-      }).catch(() => cached);
-      return cached || network;
-    })
-  );
+      }).catch(() => caches.match(request))
+    );
+  } else {
+    // Cache-first for images and other static assets
+    e.respondWith(
+      caches.match(request).then(cached => {
+        const network = fetch(request).then(res => {
+          if (res && res.status === 200 && res.type === 'basic') {
+            caches.open(CACHE).then(c => c.put(request, res.clone()));
+          }
+          return res;
+        }).catch(() => cached);
+        return cached || network;
+      })
+    );
+  }
 });

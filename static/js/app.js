@@ -933,7 +933,8 @@ async function changeTopic(topic) {
 // ════════════════════════════════════════
 function openSidebar() {
   DOM.sidebar.classList.add('open');
-  if (window.innerWidth <= 700) DOM.overlay.classList.add('active');
+  // Only add overlay on desktop (sidebar is full-width on mobile, overlay is unnecessary)
+  if (window.innerWidth > 700) DOM.overlay.classList.add('active');
 }
 function closeSidebar() {
   DOM.sidebar.classList.remove('open');
@@ -955,6 +956,7 @@ function showSidebarSections(mode) {
     hide(plan); hide(topics); show(vocab); hide(lb); hide(series);
   } else if (mode === 'series') {
     hide(plan); hide(topics); hide(vocab); hide(lb); show(series);
+    renderSeriesSection();
   } else {
     show(plan); show(topics); show(vocab); show(lb); hide(series);
   }

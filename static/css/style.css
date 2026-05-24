@@ -777,13 +777,17 @@ svg { flex-shrink: 0; }
 
   .sidebar {
     position: fixed; top: var(--hh); left: 0; right: 0; bottom: var(--nh); z-index: 35;
-    width: 100%; height: auto;
+    width: 100%; height: calc(100vh - var(--hh) - var(--nh));
     transform: translateX(-100%);
     box-shadow: 0 8px 40px rgba(109,40,217,.25);
     border-right: none; border-bottom: 1px solid var(--b2);
-    backdrop-filter: none; background: rgba(248,246,255,1);
+    backdrop-filter: none; background: #fff;
+    overflow: hidden;
   }
   .sidebar.open { transform: translateX(0); }
+  .sidebar .sb-inner {
+    height: 100%; overflow-y: auto; -webkit-overflow-scrolling: touch;
+  }
 
   .sb-close {
     display: flex; position: absolute; top: 12px; right: 12px; z-index: 2;
