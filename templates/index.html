@@ -250,18 +250,27 @@
 
         <!-- The Office — Series para aprender inglés -->
         <div class="sb-section" id="series-section" style="display:none">
-          <div class="sb-label">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><rect x="2" y="3" width="20" height="14" rx="2" stroke="currentColor" stroke-width="2"/><path d="M8 21h8M12 17v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-            📺 The Office — Aprende con series
-          </div>
-          <div class="office-series-header">
-            <div class="osh-logo">THE<br>OFFICE</div>
-            <div class="osh-info">
-              <div class="osh-title">Aprende inglés real</div>
-              <div class="osh-sub">Frases auténticas · 9 temporadas · Humor americano</div>
+          <!-- Header de la serie -->
+          <div class="series-hero">
+            <div class="sh-logo">THE<br><span>OFFICE</span></div>
+            <div class="sh-info">
+              <div class="sh-title">Temporada 1 · 2005</div>
+              <div class="sh-sub">6 episodios · Inglés americano real</div>
+              <div class="sh-badges">
+                <span class="sh-badge">A1–B1</span>
+                <span class="sh-badge">Humor</span>
+                <span class="sh-badge">Oficina</span>
+              </div>
             </div>
           </div>
-          <div id="office-scenes-list" class="office-scenes-list"></div>
+          <!-- Lista de episodios -->
+          <div class="series-ep-label">Episodios — Temporada 1</div>
+          <div id="episode-list" class="episode-list"></div>
+          <!-- Práctica rápida de frases -->
+          <details class="quick-scenes-details">
+            <summary>⚡ Frases icónicas — práctica rápida</summary>
+            <div id="office-scenes-list" class="office-scenes-list"></div>
+          </details>
         </div>
 
         <!-- Leaderboard familiar -->
@@ -404,27 +413,38 @@
 
 <!-- ====== SCENE PLAYER (The Office) ====== -->
 <div id="scene-player" class="scene-player hidden">
+
+  <!-- Top bar -->
   <div class="sp-topbar">
     <button id="sp-close" class="sp-close-btn">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
-      Cerrar
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
     </button>
     <div class="sp-meta">
       <span id="sp-scene-title" class="sp-title-txt"></span>
       <span id="sp-scene-ep" class="sp-ep-txt"></span>
     </div>
+    <div class="sp-ep-nav">
+      <button id="sp-prev-ep" class="sp-nav-btn" title="Episodio anterior">‹</button>
+      <button id="sp-next-ep" class="sp-nav-btn" title="Siguiente episodio">›</button>
+    </div>
   </div>
 
+  <!-- Video -->
   <div class="sp-video-wrap">
     <div id="yt-iframe"></div>
   </div>
 
+  <!-- Scene selector tabs -->
+  <div class="sp-scenes-bar" id="sp-scenes-bar"></div>
+
+  <!-- Dialogue -->
   <div class="sp-bottom">
     <div class="sp-label-row">
-      <span class="sp-section-label">📝 Diálogo — toca una línea para practicarla</span>
+      <span class="sp-section-label">📝 Toca una línea para ir a ese momento · 🎤 para practicar</span>
     </div>
     <div id="sp-dialogue-list" class="sp-dialogue-list"></div>
   </div>
+
 </div>
 
 <!-- YouTube IFrame API -->

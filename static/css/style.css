@@ -1001,7 +1001,73 @@ svg { flex-shrink: 0; }
 }
 
 /* ───────────────────────────────────────
-   THE OFFICE — Series section
+   SERIES HERO + EPISODE LIST
+   ─────────────────────────────────────── */
+.series-hero {
+  display: flex; align-items: center; gap: 12px;
+  background: #111; border-radius: 12px; padding: 12px 14px; margin-bottom: 12px;
+}
+.sh-logo {
+  background: #fff; color: #000; font-weight: 900; font-size: .75rem;
+  line-height: 1.15; text-align: center; padding: 5px 8px; border-radius: 6px;
+  letter-spacing: -.02em; flex-shrink: 0;
+}
+.sh-logo span { display: block; }
+.sh-info { min-width: 0; }
+.sh-title { color: #fff; font-size: .88rem; font-weight: 700; margin-bottom: 2px; }
+.sh-sub { color: rgba(255,255,255,.5); font-size: .7rem; margin-bottom: 6px; }
+.sh-badges { display: flex; gap: 5px; flex-wrap: wrap; }
+.sh-badge {
+  font-size: .58rem; font-weight: 700; padding: 2px 7px; border-radius: 20px;
+  background: rgba(255,255,255,.12); color: rgba(255,255,255,.7);
+}
+
+.series-ep-label {
+  font-size: .68rem; font-weight: 700; color: var(--t3);
+  text-transform: uppercase; letter-spacing: .06em; margin-bottom: 8px; padding: 0 2px;
+}
+
+.episode-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
+
+.ep-card {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--surface); border: 1px solid var(--b2); border-radius: 12px;
+  padding: 10px 12px; cursor: pointer; transition: box-shadow .15s, background .15s;
+}
+.ep-card:hover { background: var(--surface2); box-shadow: var(--sh1); }
+.epc-num {
+  font-size: .72rem; font-weight: 900; color: var(--t3);
+  background: var(--surface2); border-radius: 7px; padding: 4px 7px;
+  flex-shrink: 0; letter-spacing: .02em;
+}
+.epc-body { flex: 1; min-width: 0; }
+.epc-title { font-size: .85rem; font-weight: 700; color: var(--t1); margin-bottom: 1px; }
+.epc-date { font-size: .65rem; color: var(--t4); margin-bottom: 3px; }
+.epc-synopsis {
+  font-size: .7rem; color: var(--t3); line-height: 1.35;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.epc-play {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--grad-v); color: #fff; font-size: .85rem;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(109,40,217,.35); transition: transform .1s;
+}
+.epc-play:active { transform: scale(.93); }
+
+.quick-scenes-details {
+  border: 1px solid var(--b2); border-radius: 12px; overflow: hidden; margin-top: 4px;
+}
+.quick-scenes-details summary {
+  padding: 10px 12px; font-size: .78rem; font-weight: 700; color: var(--t2);
+  cursor: pointer; user-select: none; list-style: none;
+}
+.quick-scenes-details summary::-webkit-details-marker { display: none; }
+.quick-scenes-details[open] summary { border-bottom: 1px solid var(--b2); }
+.quick-scenes-details .office-scenes-list { padding: 8px; }
+
+/* ───────────────────────────────────────
+   THE OFFICE — Series section (legacy)
    ─────────────────────────────────────── */
 .office-series-header {
   display: flex; align-items: center; gap: 12px;
@@ -1077,18 +1143,43 @@ svg { flex-shrink: 0; }
 
 /* Top bar */
 .sp-topbar {
-  display: flex; align-items: center; gap: 12px;
-  padding: 10px 16px; background: #0D0D0D;
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px; background: #0D0D0D;
   border-bottom: 1px solid rgba(255,255,255,.07);
   flex-shrink: 0;
 }
 .sp-close-btn {
-  display: flex; align-items: center; gap: 6px;
-  color: rgba(255,255,255,.7); font-size: .8rem; font-weight: 600;
-  background: rgba(255,255,255,.08); border-radius: 8px; padding: 6px 12px;
+  width: 32px; height: 32px; border-radius: 50%;
+  color: rgba(255,255,255,.8); font-size: .8rem;
+  background: rgba(255,255,255,.1);
+  display: flex; align-items: center; justify-content: center;
   flex-shrink: 0; transition: background .15s;
 }
-.sp-close-btn:hover { background: rgba(255,255,255,.15); }
+.sp-close-btn:hover { background: rgba(255,255,255,.18); }
+.sp-ep-nav { display: flex; gap: 4px; margin-left: auto; flex-shrink: 0; }
+.sp-nav-btn {
+  width: 30px; height: 30px; border-radius: 50%;
+  background: rgba(255,255,255,.08); color: #fff; font-size: 1.1rem;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .15s;
+}
+.sp-nav-btn:hover { background: rgba(255,255,255,.15); }
+
+/* Scene selector tabs */
+.sp-scenes-bar {
+  display: flex; gap: 6px; overflow-x: auto; padding: 8px 12px;
+  background: #111; border-bottom: 1px solid rgba(255,255,255,.06);
+  flex-shrink: 0; -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.sp-scenes-bar::-webkit-scrollbar { display: none; }
+.sp-scene-tab {
+  white-space: nowrap; font-size: .72rem; font-weight: 600;
+  padding: 5px 12px; border-radius: 20px; flex-shrink: 0;
+  background: rgba(255,255,255,.07); color: rgba(255,255,255,.5);
+  transition: background .15s, color .15s;
+}
+.sp-scene-tab.active { background: #F97316; color: #fff; }
 .sp-meta { display: flex; flex-direction: column; min-width: 0; }
 .sp-title-txt {
   color: #fff; font-size: .88rem; font-weight: 700;

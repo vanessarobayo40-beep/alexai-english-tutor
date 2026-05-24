@@ -51,8 +51,173 @@ document.addEventListener('visibilitychange', () => {
 });
 
 // ════════════════════════════════════════
-//  THE OFFICE — escenas para practicar
+//  THE OFFICE — TEMPORADA 1 COMPLETA
 // ════════════════════════════════════════
+const THE_OFFICE_S1 = [
+  { ep:1, title:'Pilot', date:'24 Mar 2005',
+    synopsis:'Michael intenta demostrar que Dunder Mifflin es el mejor lugar para trabajar cuando la empresa envía a alguien a evaluar si recortar personal.',
+    youtubeId:'L_-9kqbijig', clipLabel:'Mejores momentos del Pilot',
+    scenes:[
+      { title:'Michael presenta la empresa', dialogue:[
+        { t:4,  speaker:'Michael', emoji:'👔', text:"Okay, I'm going to show you something.", es:'Voy a mostrarte algo.' },
+        { t:8,  speaker:'Michael', emoji:'👔', text:"This is Dunder Mifflin — the greatest paper company in the world.", es:'Esta es Dunder Mifflin — la mejor empresa de papel del mundo.' },
+        { t:14, speaker:'Jim',     emoji:'😏', text:"It's pretty good.", es:'Es bastante buena.' },
+        { t:17, speaker:'Pam',     emoji:'🎨', text:"I like it here.", es:'Me gusta aquí.' },
+      ]},
+      { title:'Ryan el nuevo temporal', dialogue:[
+        { t:0,  speaker:'Ryan',    emoji:'🧑', text:"Hi, I'm Ryan Howard. I'm the new temp.", es:'Hola, soy Ryan Howard. Soy el nuevo temporal.' },
+        { t:5,  speaker:'Michael', emoji:'👔', text:"Oh! The new temp! Great! I'm Michael Scott.", es:'¡El nuevo temporal! ¡Genial! Soy Michael Scott.' },
+        { t:10, speaker:'Michael', emoji:'👔', text:"I am the regional manager.", es:'Soy el gerente regional.' },
+        { t:14, speaker:'Ryan',    emoji:'🧑', text:"Nice to meet you.", es:'Mucho gusto.' },
+      ]},
+      { title:'Jim y Pam — primera conversación', dialogue:[
+        { t:0,  speaker:'Jim', emoji:'😏', text:"How are you?", es:'¿Cómo estás?' },
+        { t:3,  speaker:'Pam', emoji:'🎨', text:"Good. Busy.", es:'Bien. Ocupada.' },
+        { t:5,  speaker:'Jim', emoji:'😏', text:"Is Roy coming to the party?", es:'¿Va a venir Roy a la fiesta?' },
+        { t:9,  speaker:'Pam', emoji:'🎨', text:"Yeah, he said he might stop by.", es:'Sí, dijo que podría pasar.' },
+        { t:13, speaker:'Jim', emoji:'😏', text:"Cool.", es:'Genial.' },
+      ]},
+      { title:'Dwight — Asistente del Gerente', dialogue:[
+        { t:0,  speaker:'Dwight',  emoji:'🌱', text:"As assistant regional manager, I have certain responsibilities.", es:'Como asistente del gerente regional, tengo ciertas responsabilidades.' },
+        { t:7,  speaker:'Michael', emoji:'👔', text:"Assistant TO the regional manager.", es:'Asistente DEL gerente regional.' },
+        { t:11, speaker:'Dwight',  emoji:'🌱', text:"That is what I said.", es:'Eso fue lo que dije.' },
+        { t:14, speaker:'Jim',     emoji:'😏', text:"(to camera) It's not.", es:'(a la cámara) No es lo mismo.' },
+      ]},
+    ]},
+
+  { ep:2, title:'Diversity Day', date:'29 Mar 2005',
+    synopsis:'El comportamiento ofensivo de Michael imitando a Chris Rock obliga a la empresa a organizar un seminario de diversidad.',
+    youtubeId:'ePbipufCPYw', clipLabel:'Diversity Day — escena principal',
+    scenes:[
+      { title:"Michael introduce el Día de Diversidad", dialogue:[
+        { t:0,  speaker:'Michael', emoji:'👔', text:"Today we're going to do a little exercise.", es:'Hoy vamos a hacer un pequeño ejercicio.' },
+        { t:5,  speaker:'Michael', emoji:'👔', text:"I want everyone to take a card. Don't look at it.", es:'Quiero que todos tomen una tarjeta. No la miren.' },
+        { t:10, speaker:'Michael', emoji:'👔', text:"Tape it to your forehead.", es:'Pégala en su frente.' },
+        { t:14, speaker:'Jim',     emoji:'😏', text:"(to camera) This is going to be a disaster.", es:'(a la cámara) Esto va a ser un desastre.' },
+      ]},
+      { title:'"That\'s what she said"', dialogue:[
+        { t:0,  speaker:'Michael', emoji:'👔', text:"That's what she said!", es:'¡Eso es lo que ella dijo!' },
+        { t:4,  speaker:'Jim',     emoji:'😏', text:"That doesn't even make sense.", es:'Eso ni siquiera tiene sentido.' },
+        { t:7,  speaker:'Michael', emoji:'👔', text:"It makes total sense. Think about it.", es:'Tiene todo el sentido. Piénsalo.' },
+        { t:11, speaker:'Dwight',  emoji:'🌱', text:"Michael, that's inappropriate.", es:'Michael, eso es inapropiado.' },
+        { t:14, speaker:'Michael', emoji:'👔', text:"I know. That's why it's funny.", es:'Lo sé. Por eso es gracioso.' },
+      ]},
+      { title:'La tarjeta en la frente', dialogue:[
+        { t:0,  speaker:'Kelly',   emoji:'💅', text:"Can you not look at my card?", es:'¿Puedes no mirar mi tarjeta?' },
+        { t:4,  speaker:'Kevin',   emoji:'🍕', text:"I'm not looking.", es:'No estoy mirando.' },
+        { t:7,  speaker:'Kelly',   emoji:'💅', text:"You are so looking right now.", es:'Sí estás mirando ahora mismo.' },
+        { t:10, speaker:'Michael', emoji:'👔', text:"Okay, okay! Let's stay focused, people.", es:'¡Okay, okay! Mantengámonos enfocados, gente.' },
+      ]},
+    ]},
+
+  { ep:3, title:'Health Care', date:'5 Abr 2005',
+    synopsis:'Dwight se convierte en jefe interino mientras Michael evita tomar decisiones difíciles sobre el plan de salud de los empleados.',
+    youtubeId:'d8M0LIUastI', clipLabel:'Best Bits Season 1 Part 1',
+    scenes:[
+      { title:'Dwight como jefe interino', dialogue:[
+        { t:2,  speaker:'Michael', emoji:'👔', text:"Dwight, I'm putting you in charge of picking a new health care plan.", es:'Dwight, te pongo a cargo de elegir un nuevo plan de salud.' },
+        { t:8,  speaker:'Dwight',  emoji:'🌱', text:"I will not let you down.", es:'No te decepcionaré.' },
+        { t:11, speaker:'Michael', emoji:'👔', text:"I know you won't. Because I trust you.", es:'Lo sé. Porque confío en ti.' },
+        { t:15, speaker:'Dwight',  emoji:'🌱', text:"With my life?", es:'¿Con tu vida?' },
+        { t:17, speaker:'Michael', emoji:'👔', text:"With my employees' lives. Same thing.", es:'Con la vida de mis empleados. Lo mismo.' },
+      ]},
+      { title:'Las quejas de salud', dialogue:[
+        { t:0,  speaker:'Kevin',   emoji:'🍕', text:"I have a lot of things wrong with me.", es:'Tengo muchas cosas que están mal conmigo.' },
+        { t:5,  speaker:'Dwight',  emoji:'🌱', text:"Like what? Be specific.", es:'¿Como qué? Sé específico.' },
+        { t:8,  speaker:'Kevin',   emoji:'🍕', text:"Okay. My feet hurt.", es:'Okay. Me duelen los pies.' },
+        { t:11, speaker:'Dwight',  emoji:'🌱', text:"That's not a disease. That's just being fat.", es:'Eso no es una enfermedad. Es solo estar gordo.' },
+      ]},
+      { title:'Jim inventa enfermedades', dialogue:[
+        { t:0,  speaker:'Jim',     emoji:'😏', text:"I need to put Ebola on the form.", es:'Necesito poner Ébola en el formulario.' },
+        { t:4,  speaker:'Dwight',  emoji:'🌱', text:"Ebola? Is that serious?", es:'¿Ébola? ¿Es eso serio?' },
+        { t:7,  speaker:'Jim',     emoji:'😏', text:"Very. Also spontaneous dental hydroplosion.", es:'Mucho. También hidroexplosión dental espontánea.' },
+        { t:12, speaker:'Dwight',  emoji:'🌱', text:"I've never heard of that.", es:'Nunca había oído hablar de eso.' },
+        { t:15, speaker:'Jim',     emoji:'😏', text:"It's when your teeth... explode.", es:'Es cuando tus dientes... explotan.' },
+      ]},
+    ]},
+
+  { ep:4, title:'The Alliance', date:'12 Abr 2005',
+    synopsis:'Dwight le propone una alianza secreta a Jim para protegerse de posibles despidos, sin saber que Jim está jugando una broma.',
+    youtubeId:'rQDu84d5GLc', clipLabel:'Season 1 Best Moments',
+    scenes:[
+      { title:'Dwight propone la alianza', dialogue:[
+        { t:0,  speaker:'Dwight',  emoji:'🌱', text:"I need to talk to you. Privately.", es:'Necesito hablar contigo. En privado.' },
+        { t:4,  speaker:'Jim',     emoji:'😏', text:"Okay... what's up?", es:'Okay... ¿qué pasa?' },
+        { t:7,  speaker:'Dwight',  emoji:'🌱', text:"I need you to be in my alliance.", es:'Necesito que estés en mi alianza.' },
+        { t:11, speaker:'Jim',     emoji:'😏', text:"You want me to be in an alliance with you?", es:'¿Quieres que esté en una alianza contigo?' },
+        { t:15, speaker:'Dwight',  emoji:'🌱', text:"Yes. Against the others.", es:'Sí. Contra los demás.' },
+        { t:18, speaker:'Jim',     emoji:'😏', text:"Okay. I'm in.", es:'Okay. Estoy dentro.' },
+        { t:21, speaker:'Jim',     emoji:'😏', text:"(to camera) I am so not in.", es:'(a la cámara) No estoy para nada dentro.' },
+      ]},
+      { title:'El cumpleaños de Meredith', dialogue:[
+        { t:0,  speaker:'Michael', emoji:'👔', text:"Today is Meredith's birthday!", es:'¡Hoy es el cumpleaños de Meredith!' },
+        { t:4,  speaker:'Michael', emoji:'👔', text:"And we are going to celebrate!", es:'¡Y vamos a celebrar!' },
+        { t:7,  speaker:'Kevin',   emoji:'🍕', text:"Is there going to be cake?", es:'¿Va a haber pastel?' },
+        { t:10, speaker:'Michael', emoji:'👔', text:"There is going to be cake.", es:'Va a haber pastel.' },
+        { t:13, speaker:'Kevin',   emoji:'🍕', text:"What kind?", es:'¿De qué tipo?' },
+        { t:15, speaker:'Michael', emoji:'👔', text:"The... best kind.", es:'El... mejor tipo.' },
+      ]},
+      { title:'Jim convence a Dwight de disfrazarse', dialogue:[
+        { t:0,  speaker:'Jim',     emoji:'😏', text:"For the alliance, you'll need a disguise.", es:'Para la alianza, vas a necesitar un disfraz.' },
+        { t:5,  speaker:'Dwight',  emoji:'🌱', text:"Of course. What do you suggest?", es:'Por supuesto. ¿Qué sugieres?' },
+        { t:8,  speaker:'Jim',     emoji:'😏', text:"A mustache. And different hair.", es:'Un bigote. Y cabello diferente.' },
+        { t:12, speaker:'Dwight',  emoji:'🌱', text:"I can do that.", es:'Puedo hacer eso.' },
+      ]},
+    ]},
+
+  { ep:5, title:'Basketball', date:'19 Abr 2005',
+    synopsis:'Michael reta al equipo del almacén a un partido de basketball. Si la oficina gana, viernes libre; si pierde, trabajan el sábado.',
+    youtubeId:'rQDu84d5GLc', clipLabel:'Season 1 Best Moments',
+    scenes:[
+      { title:'Michael hace el reto', dialogue:[
+        { t:0,  speaker:'Michael', emoji:'👔', text:"We are going to play basketball against the warehouse guys.", es:'Vamos a jugar basketball contra los chicos del almacén.' },
+        { t:6,  speaker:'Jim',     emoji:'😏', text:"Why?", es:'¿Por qué?' },
+        { t:8,  speaker:'Michael', emoji:'👔', text:"Because they think they're better than us.", es:'Porque creen que son mejores que nosotros.' },
+        { t:12, speaker:'Jim',     emoji:'😏', text:"They are better than us.", es:'Son mejores que nosotros.' },
+        { t:15, speaker:'Michael', emoji:'👔', text:"No, they're not. Trust me.", es:'No, no lo son. Confía en mí.' },
+      ]},
+      { title:'Jim en la cancha', dialogue:[
+        { t:0,  speaker:'Darryl',  emoji:'🏀', text:"You play?", es:'¿Juegas?' },
+        { t:2,  speaker:'Jim',     emoji:'😏', text:"A little. In high school.", es:'Un poco. En la secundaria.' },
+        { t:5,  speaker:'Darryl',  emoji:'🏀', text:"You're pretty good.", es:'Eres bastante bueno.' },
+        { t:8,  speaker:'Jim',     emoji:'😏', text:"Thanks. I try.", es:'Gracias. Lo intento.' },
+      ]},
+      { title:'Michael no sabe jugar', dialogue:[
+        { t:0,  speaker:'Michael', emoji:'👔', text:"I am going to school you guys so hard.", es:'Les voy a dar una paliza tan grande.' },
+        { t:5,  speaker:'Dwight',  emoji:'🌱', text:"Michael, you should stretch first.", es:'Michael, deberías estirarte primero.' },
+        { t:8,  speaker:'Michael', emoji:'👔', text:"I'm fine. I played in college.", es:'Estoy bien. Jugué en la universidad.' },
+        { t:12, speaker:'Jim',     emoji:'😏', text:"(to camera) He did not play in college.", es:'(a la cámara) No jugó en la universidad.' },
+      ]},
+    ]},
+
+  { ep:6, title:'Hot Girl', date:'26 Abr 2005',
+    synopsis:'Una vendedora de carteras visita la oficina y todos los hombres compiten por su atención, incluyendo Michael y Jim.',
+    youtubeId:'nxD1LAOabAw', clipLabel:'Best Talking Heads Season 1',
+    scenes:[
+      { title:'Katy llega a la oficina', dialogue:[
+        { t:0,  speaker:'Katy',    emoji:'👜', text:"Hi! I'm Katy. I'm here to sell purses.", es:'¡Hola! Soy Katy. Estoy aquí para vender carteras.' },
+        { t:5,  speaker:'Michael', emoji:'👔', text:"Oh! I love purses! Come in, come in!", es:'¡Me encantan las carteras! ¡Pasa, pasa!' },
+        { t:9,  speaker:'Michael', emoji:'👔', text:"Let me show you around.", es:'Déjame mostrarte el lugar.' },
+        { t:12, speaker:'Jim',     emoji:'😏', text:"(to camera) Michael has never bought a purse in his life.", es:'(a la cámara) Michael nunca ha comprado una cartera en su vida.' },
+      ]},
+      { title:'Jim habla con Katy', dialogue:[
+        { t:0,  speaker:'Jim',     emoji:'😏', text:"Hey. So how's the selling going?", es:'Oye. ¿Cómo va la venta?' },
+        { t:4,  speaker:'Katy',    emoji:'👜', text:"Pretty good! Everyone's been really nice.", es:'¡Bastante bien! Todos han sido muy amables.' },
+        { t:8,  speaker:'Jim',     emoji:'😏', text:"That's... surprising.", es:'Eso es... sorprendente.' },
+        { t:11, speaker:'Katy',    emoji:'👜', text:"Are you looking for anything?", es:'¿Estás buscando algo?' },
+        { t:14, speaker:'Jim',     emoji:'😏', text:"Maybe.", es:'Quizás.' },
+      ]},
+      { title:'Pam nota que Jim está coqueteando', dialogue:[
+        { t:0,  speaker:'Pam',     emoji:'🎨', text:"Jim, do you need help with something?", es:'Jim, ¿necesitas ayuda con algo?' },
+        { t:4,  speaker:'Jim',     emoji:'😏', text:"Nope. Just looking.", es:'No. Solo mirando.' },
+        { t:7,  speaker:'Pam',     emoji:'🎨', text:"The purses?", es:'¿Las carteras?' },
+        { t:10, speaker:'Jim',     emoji:'😏', text:"Sure. The purses.", es:'Sí. Las carteras.' },
+        { t:13, speaker:'Pam',     emoji:'🎨', text:"(to camera) Right.", es:'(a la cámara) Claro.' },
+      ]},
+    ]},
+];
+
+// Frases icónicas para práctica rápida
 const OFFICE_SCENES = [
   { id:1,
     title:'Bears. Beets. Battlestar Galactica.',
@@ -868,8 +1033,34 @@ function escHtml(s) {
 }
 
 // ════════════════════════════════════════
-//  THE OFFICE — scene cards (sidebar)
+//  SERIES — render sidebar
 // ════════════════════════════════════════
+function renderSeriesSection() {
+  // Episode list
+  const epList = $('episode-list');
+  if (epList) {
+    epList.innerHTML = THE_OFFICE_S1.map(ep => `
+      <div class="ep-card" data-ep="${ep.ep}">
+        <div class="epc-num">E${String(ep.ep).padStart(2,'0')}</div>
+        <div class="epc-body">
+          <div class="epc-title">${escHtml(ep.title)}</div>
+          <div class="epc-date">${escHtml(ep.date)}</div>
+          <div class="epc-synopsis">${escHtml(ep.synopsis)}</div>
+        </div>
+        <button class="epc-play" data-ep="${ep.ep}">▶</button>
+      </div>`).join('');
+    epList.querySelectorAll('.epc-play, .ep-card').forEach(el => {
+      el.addEventListener('click', e => {
+        const ep = THE_OFFICE_S1.find(x => x.ep === Number(el.dataset.ep || el.closest('.ep-card').dataset.ep));
+        if (ep && !e.target.classList.contains('epc-play') && e.target !== el) return;
+        if (ep) openEpisodePlayer(ep, 0);
+      });
+    });
+  }
+  // Quick scenes
+  renderOfficeScenes();
+}
+
 function renderOfficeScenes() {
   const container = $('office-scenes-list');
   if (!container) return;
@@ -900,11 +1091,13 @@ function renderOfficeScenes() {
 // ════════════════════════════════════════
 //  SCENE PLAYER — YouTube + subtítulos
 // ════════════════════════════════════════
-let _ytPlayer      = null;
-let _ytReady       = false;
-let _ytSyncTimer   = null;
-let _currentScene  = null;
-let _pendingYTId   = null;
+let _ytPlayer       = null;
+let _ytReady        = false;
+let _ytSyncTimer    = null;
+let _currentScene   = null;   // single-scene mode (quick practice)
+let _currentEp      = null;   // episode mode
+let _currentSceneIdx = 0;
+let _pendingYTId    = null;
 
 // Called by YouTube IFrame API when ready
 window.onYouTubeIframeAPIReady = function() {
@@ -951,15 +1144,65 @@ function _syncSubs() {
   });
 }
 
+// Open a full episode (with scene selector)
+function openEpisodePlayer(ep, sceneIdx) {
+  _currentEp       = ep;
+  _currentScene    = null;
+  _currentSceneIdx = sceneIdx || 0;
+  closeSidebar();
+  $('sp-scene-title').textContent = `E${String(ep.ep).padStart(2,'0')} · ${ep.title}`;
+  $('sp-scene-ep').textContent    = ep.date;
+  _renderSceneTabs(ep);
+  _loadEpisodeScene(ep, _currentSceneIdx);
+  $('scene-player').classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+  // Episode navigation arrows
+  const prevEp = THE_OFFICE_S1.find(x => x.ep === ep.ep - 1);
+  const nextEp = THE_OFFICE_S1.find(x => x.ep === ep.ep + 1);
+  const prevBtn = $('sp-prev-ep'); const nextBtn = $('sp-next-ep');
+  if (prevBtn) { prevBtn.style.opacity = prevEp ? '1' : '.25'; prevBtn.disabled = !prevEp; }
+  if (nextBtn) { nextBtn.style.opacity = nextEp ? '1' : '.25'; nextBtn.disabled = !nextEp; }
+  if (_ytReady) _createYTPlayer(ep.youtubeId);
+  else _pendingYTId = ep.youtubeId;
+}
+
+function _renderSceneTabs(ep) {
+  const bar = $('sp-scenes-bar');
+  if (!bar) return;
+  bar.innerHTML = ep.scenes.map((sc, i) => `
+    <button class="sp-scene-tab${i === _currentSceneIdx ? ' active' : ''}" data-idx="${i}">
+      ${i+1}. ${escHtml(sc.title)}
+    </button>`).join('');
+  bar.querySelectorAll('.sp-scene-tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      _currentSceneIdx = Number(btn.dataset.idx);
+      bar.querySelectorAll('.sp-scene-tab').forEach((b,i) => b.classList.toggle('active', i === _currentSceneIdx));
+      _loadEpisodeScene(_currentEp, _currentSceneIdx);
+    });
+  });
+}
+
+function _loadEpisodeScene(ep, idx) {
+  const scene = ep.scenes[idx];
+  if (!scene) return;
+  _currentScene = { ...scene, youtubeId: ep.youtubeId };
+  _renderSceneDialogue(_currentScene);
+}
+
+// Open a single quick-practice scene
 function openScenePlayer(scene) {
   _currentScene = scene;
+  _currentEp    = null;
   closeSidebar();
   $('sp-scene-title').textContent = scene.title;
-  $('sp-scene-ep').textContent    = scene.ep;
+  $('sp-scene-ep').textContent    = scene.ep || '';
+  const bar = $('sp-scenes-bar'); if (bar) bar.innerHTML = '';
+  const prevBtn = $('sp-prev-ep'); const nextBtn = $('sp-next-ep');
+  if (prevBtn) { prevBtn.style.opacity = '.25'; prevBtn.disabled = true; }
+  if (nextBtn) { nextBtn.style.opacity = '.25'; nextBtn.disabled = true; }
   _renderSceneDialogue(scene);
   $('scene-player').classList.remove('hidden');
   document.body.style.overflow = 'hidden';
-
   if (_ytReady) _createYTPlayer(scene.youtubeId);
   else _pendingYTId = scene.youtubeId;
 }
@@ -1024,7 +1267,7 @@ async function initApp() {
   checkStreak();
   scheduleSave();
   renderVocabSidebar();
-  renderOfficeScenes();
+  renderSeriesSection();
   updateStatsUI();
   if (DOM.btnSpeakToggle && !S.voiceOn) {
     DOM.btnSpeakToggle.classList.add('active');
@@ -1249,8 +1492,20 @@ document.addEventListener('DOMContentLoaded', () => {
     history.pushState(null, '', location.href);
   });
 
-  // ── Scene player close ──────────────────────────────────
+  // ── Scene player close + episode nav ────────────────────
   $('sp-close')?.addEventListener('click', closeScenePlayer);
+  $('sp-prev-ep')?.addEventListener('click', () => {
+    if (_currentEp) {
+      const prev = THE_OFFICE_S1.find(x => x.ep === _currentEp.ep - 1);
+      if (prev) openEpisodePlayer(prev, 0);
+    }
+  });
+  $('sp-next-ep')?.addEventListener('click', () => {
+    if (_currentEp) {
+      const next = THE_OFFICE_S1.find(x => x.ep === _currentEp.ep + 1);
+      if (next) openEpisodePlayer(next, 0);
+    }
+  });
 
   // ── Install banner buttons ─────────────────────────────
   $('install-yes')?.addEventListener('click', () => {
